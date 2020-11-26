@@ -1,6 +1,7 @@
 package ir.vahidhoseini.testtraining1.view;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
 import ir.vahidhoseini.testtraining1.adapter.ResturantAdapter;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
+import ir.vahidhoseini.testtraining1.repository.DataBase;
 import ir.vahidhoseini.testtraining1.viewmodel.ResturantViewModel;
 
 public class ResturantActivity extends BaseActivity implements OnClickListener {
@@ -27,13 +29,14 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
     private double lat = 40.742051;
     private double lon = -74.004821;
     private int resturantsPageNumber = 1;
+    private DataBase dataBase;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        dataBase = DataBase.getInstance(this.getApplicationContext());
         setSupportActionBar(findViewById(R.id.toolbar));
         resturantRecyclerView = findViewById(R.id.searche_recycler_resturant_view);
 
@@ -97,7 +100,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
                     //                    Log.e(TAG, "ZomatoApiClient observer:");
                     result_found_count = Integer.parseInt(restaurants.get(1).getResults_found());
                     resturantAdapter.setResturants(restaurants);
-                    mResturantViewModel.inserResturantToDB();
+                    inserResturantsToDb(restaurants);
 
                 } else {
                     if (justThisCountRepeat == 3) {
@@ -115,6 +118,19 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClickListener(int position) {
 
+    }
+
+    private void inserResturantsToDb(List<Restaurants> restaurants) {
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                for (Restaurants restaurants1 : restaurants) {
+                    dataBase.getZomatoDao().inserResturants(restaurants1);
+                }
+            }
+        });
+        thread.start();
     }
 
 }

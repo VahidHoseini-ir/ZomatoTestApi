@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 import ir.vahidhoseini.testtraining1.model.zomato.Collection;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
-@Database(entities = {Collection.class, Restaurants.class}, version = 1)
+@Database(entities = {Collection.class, Restaurants.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class DataBase extends RoomDatabase {
 

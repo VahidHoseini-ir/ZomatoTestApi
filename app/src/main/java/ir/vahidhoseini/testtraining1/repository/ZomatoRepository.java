@@ -15,7 +15,6 @@ import ir.vahidhoseini.testtraining1.request.ZomatoApiClient;
 public class ZomatoRepository {
     private ZomatoApiClient mZomatoApiClient;
     private static ZomatoRepository instance;
-    private DataBase dataBase;
     private String query;
     private int start;
     private int count;
@@ -35,7 +34,6 @@ public class ZomatoRepository {
 
     public ZomatoRepository() {
         mZomatoApiClient = ZomatoApiClient.getInstance();
-//        dataBase = DataBase.getInstance();
     }
 
     public LiveData<List<Categories>> getCategory() {
@@ -87,17 +85,4 @@ public class ZomatoRepository {
         mZomatoApiClient.cancelRequest();
     }
 
-    public void inserResturantToDB() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<Restaurants> restaurants = mZomatoApiClient.getResturants().getValue();
-                for (Restaurants restaurants1 : restaurants) {
-                    dataBase.getZomatoDao().inserResturants(restaurants1);
-                }
-            }
-        });
-//        thread.start();
-
-    }
 }

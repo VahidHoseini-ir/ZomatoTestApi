@@ -1,7 +1,6 @@
 package ir.vahidhoseini.testtraining1.view;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -35,7 +34,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_resturant);
         dataBase = DataBase.getInstance(this.getApplicationContext());
         setSupportActionBar(findViewById(R.id.toolbar));
         resturantRecyclerView = findViewById(R.id.searche_recycler_resturant_view);
@@ -49,6 +48,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
             public boolean onQueryTextSubmit(String query) {
                 resturantAdapter.displayLoading();
                 resturantsPageNumber = 1;
+                RepeatStartPage = 1;
                 mResturantViewModel.reciveResturantApi(query, resturantsPageNumber, 10, lat, lon, null, null, null, null);
                 searchView.clearFocus();
                 return false;
@@ -89,7 +89,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
         });
     }
 
-    int justThisCountRepeat = 3;
+    int RepeatStartPage = 1;
 
     private void ResturantObserver() {
         mResturantViewModel.getResturants().observe(this, new Observer<List<Restaurants>>() {
@@ -99,17 +99,14 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
                 if (restaurants != null) {
                     //                    Log.e(TAG, "ZomatoApiClient observer:");
                     result_found_count = Integer.parseInt(restaurants.get(1).getResults_found());
+                    RepeatStartPage = Integer.parseInt(restaurants.get(1).getResults_start());
                     resturantAdapter.setResturants(restaurants);
-                    inserResturantsToDb(restaurants);
+                    //                    inserResturantsToDb(restaurants);
 
                 } else {
-                    if (justThisCountRepeat == 3) {
+                    Log.e(TAG, "ZomatoApiClient resturants is null");
+                    mResturantViewModel.reciveResturantApi(null, RepeatStartPage, 10, lat, lon, null, null, null, null);
 
-                    } else {
-                        justThisCountRepeat++;
-                        Log.e(TAG, "ZomatoApiClient resturants is null");
-                        mResturantViewModel.repeatLastNextReciveResturant();
-                    }
                 }
             }
         });
@@ -120,17 +117,5 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
 
     }
 
-    private void inserResturantsToDb(List<Restaurants> restaurants) {
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                for (Restaurants restaurants1 : restaurants) {
-                    dataBase.getZomatoDao().inserResturants(restaurants1);
-                }
-            }
-        });
-        thread.start();
-    }
 
 }

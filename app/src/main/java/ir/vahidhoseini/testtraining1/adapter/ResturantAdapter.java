@@ -147,8 +147,6 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (resturants.get(1) != null) {
             this.resturants = resturants;
             notifyDataSetChanged();
-        } else {
-            resturants.get(1).setResults_found(String.valueOf(resturants.size()));
         }
 
     }

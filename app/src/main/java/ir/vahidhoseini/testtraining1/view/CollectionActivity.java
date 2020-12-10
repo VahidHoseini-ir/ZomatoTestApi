@@ -16,9 +16,11 @@ import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.adapter.CollectionAdapter;
 import ir.vahidhoseini.testtraining1.adapter.ResturantAdapter;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
+import ir.vahidhoseini.testtraining1.model.zomato.Categories;
 import ir.vahidhoseini.testtraining1.model.zomato.Collection;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
 import ir.vahidhoseini.testtraining1.repository.DataBase;
+import ir.vahidhoseini.testtraining1.repository.ZomatoRepository;
 import ir.vahidhoseini.testtraining1.viewmodel.CollectionViewModel;
 
 public class CollectionActivity extends BaseActivity implements OnClickListener {
@@ -27,7 +29,6 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
     private RecyclerView collection_recyclerview;
     private CollectionAdapter collectionAdapter;
     public static Context context;
-
     private DataBase dataBase;
 
     @Override
@@ -48,6 +49,7 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
                 collectionAdapter.setCollections(collections);
             }
         });
+
         //        collectionViewModel.reciveColledtionApi(280, 20);
     }
 

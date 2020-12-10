@@ -1,0 +1,206 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "55ca92d181be9250f00e40a9f51a9fdf",
+    "entities": [
+      {
+        "tableName": "collection",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`collection_id` TEXT NOT NULL, `title` TEXT, `url` TEXT, `description` TEXT, `image_url` TEXT, `share_url` TEXT, PRIMARY KEY(`collection_id`))",
+        "fields": [
+          {
+            "fieldPath": "collection_id",
+            "columnName": "collection_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "image_url",
+            "columnName": "image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "share_url",
+            "columnName": "share_url",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "collection_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "resturant",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `results_found` TEXT, `results_start` TEXT, `viewType` INTEGER NOT NULL, `name` TEXT, `cuisines` TEXT, `timings` TEXT, `average_cost_for_two` INTEGER, `currency` TEXT, `thumb` TEXT, `featured_image` TEXT, `phone_numbers` TEXT, `address` TEXT, `locality` TEXT, `city` TEXT, `latitude` TEXT, `longitude` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "results_found",
+            "columnName": "results_found",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "results_start",
+            "columnName": "results_start",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "viewType",
+            "columnName": "viewType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "restaurant.name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.cuisines",
+            "columnName": "cuisines",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.timings",
+            "columnName": "timings",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.average_cost_for_two",
+            "columnName": "average_cost_for_two",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.thumb",
+            "columnName": "thumb",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.featured_image",
+            "columnName": "featured_image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.phone_numbers",
+            "columnName": "phone_numbers",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.location.address",
+            "columnName": "address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.location.locality",
+            "columnName": "locality",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.location.city",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.location.latitude",
+            "columnName": "latitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "restaurant.location.longitude",
+            "columnName": "longitude",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT, `name` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '55ca92d181be9250f00e40a9f51a9fdf')"
+    ]
+  }
+}

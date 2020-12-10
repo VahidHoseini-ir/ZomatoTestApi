@@ -7,11 +7,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import ir.vahidhoseini.testtraining1.model.zomato.Category;
 import ir.vahidhoseini.testtraining1.model.zomato.Collection;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
-@Database(entities = {Collection.class, Restaurants.class}, version = 2)
-@TypeConverters({Converters.class})
+@Database(entities = {Collection.class, Restaurants.class, Category.class}, version =6)
 public abstract class DataBase extends RoomDatabase {
 
     private static DataBase instance;
@@ -19,7 +19,7 @@ public abstract class DataBase extends RoomDatabase {
 
     public static DataBase getInstance(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(), DataBase.class, DATABASE_NAME).build();
+            instance = Room.databaseBuilder(context.getApplicationContext(), DataBase.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
         }
         return instance;
     }

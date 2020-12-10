@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import ir.vahidhoseini.testtraining1.AppExecutors;
 import ir.vahidhoseini.testtraining1.model.zomato.Categories;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
+import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.request.zomatoresponse.CategoryResponse;
 import ir.vahidhoseini.testtraining1.request.zomatoresponse.CollectionResponse;
@@ -43,6 +44,10 @@ public class ZomatoApiClient {
         mCategory = new MutableLiveData<>();
         mCollection = new MutableLiveData<>();
         mResturants = new MutableLiveData<>();
+
+        List<MutableLiveData<List<Restaurants>>> listOfLiveData;
+
+
     }
 
     public LiveData<List<Categories>> getCategory() {
@@ -248,7 +253,7 @@ public class ZomatoApiClient {
         }
 
         private Call<ResturantResponse> getResturantResponse() {
-            return ServiceGenerator.getApi().getResturant(query, start, count, lat, lon, cuisines, category, sort, order);
+            return ServiceGenerator.getApi().getResturant(query, start, count, lat, lon, cuisines, "", sort, order);
         }
 
 

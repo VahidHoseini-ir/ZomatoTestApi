@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import ir.vahidhoseini.testtraining1.model.zomato.Categories;
+import ir.vahidhoseini.testtraining1.model.zomato.Category;
 import ir.vahidhoseini.testtraining1.repository.ZomatoRepository;
 
 public class ZomatoViewModel extends AndroidViewModel {
@@ -23,7 +24,7 @@ public class ZomatoViewModel extends AndroidViewModel {
     }
 
 
-    public LiveData<List<Categories>> getCategory() {
+    public LiveData<List<Category>> getCategory() {
         return mZomatoRepository.getCategory();
     }
 

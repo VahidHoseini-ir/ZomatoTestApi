@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ir.vahidhoseini.testtraining1.customviews.CatresButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_flowlayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="4dip"
+    android:layout_marginRight="4dip"
+    android:button="@android:color/transparent"
+    android:paddingLeft="12dip"
+    android:paddingTop="6dip"
+    android:paddingRight="12dip"
+    android:paddingBottom="6dip"
+    android:text="vahid"
+    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+    android:textColor="@android:color/white"
+    tools:ignore="MissingConstraints" />

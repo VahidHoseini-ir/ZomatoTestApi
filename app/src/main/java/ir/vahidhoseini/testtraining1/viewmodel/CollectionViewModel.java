@@ -17,16 +17,14 @@ import ir.vahidhoseini.testtraining1.repository.DataBase;
 import ir.vahidhoseini.testtraining1.repository.ZomatoRepository;
 import ir.vahidhoseini.testtraining1.view.CollectionActivity;
 
-public class CollectionViewModel extends AndroidViewModel {
+public class CollectionViewModel extends ViewModel {
 
     private ZomatoRepository mZomatoRepository;
     private DataBase dataBase;
 
-    public CollectionViewModel(@NonNull Application application) {
-        super(application);
-//        mZomatoRepository = ZomatoRepository.getInstance(application.getApplicationContext());
+    public CollectionViewModel() {
+        mZomatoRepository = ZomatoRepository.getInstance();
         dataBase = DataBase.getInstance(CollectionActivity.context);
-
     }
 
 

@@ -60,6 +60,12 @@ dependencies {
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    // okhttp i add for interceptor
+    def okhttpVersion = "4.2.1"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     // LiveData
@@ -83,7 +89,6 @@ dependencies {
 
     //flow layout
     implementation "cn.lankton:flowlayout:$flowlayou_version"
-
 
 
 }

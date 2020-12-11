@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
     //views
     private RecyclerView mAllListRecycles;
-    private ImageView mCategory;
 
     //variabls
     private ListRecyclerViewsAdapater mListRecyclerViewsAdapter;
@@ -67,23 +66,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        mCategory = findViewById(R.id.btn_category);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        mCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CategoriesSelectionActivity.class));
-            }
-        });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
+
         initRecyclerView();
         whichResturantTypeShow();
         showResturantType();
@@ -115,7 +102,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     boolean first = true;
-
     private void showResturantType() {
         mViewModel.getMainListResturants().observe(this, new Observer<List<Restaurants>>() {
             @Override

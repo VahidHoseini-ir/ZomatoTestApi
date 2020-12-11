@@ -30,5 +30,12 @@ public class MainViewModel extends AndroidViewModel {
         return mZomatoRepository.getMainListResturants();
     }
 
+    public void nextReciveMainResturantApi(String query, int start, int count, String category) {
+        mZomatoRepository.nextReciveMainResturantApi(query, start, count, category);
+    }
+    public LiveData<List<Restaurants>> getNextMainListResturants() {
+        return mZomatoRepository.getNextMainListResturants();
+    }
+
 
 }

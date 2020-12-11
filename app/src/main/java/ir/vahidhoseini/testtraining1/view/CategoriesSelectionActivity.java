@@ -7,7 +7,10 @@ import androidx.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +30,7 @@ public class CategoriesSelectionActivity extends AppCompatActivity {
 
     // views
     private FlowLayout mCategoriesRecyclerview;
+    private FloatingActionButton confirm_button;
 
     //variables
     private ZomatoRepository mZomatoRepository;
@@ -43,6 +47,13 @@ public class CategoriesSelectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_categories_selection);
         mZomatoRepository = ZomatoRepository.getInstance();
         mCategoriesRecyclerview = findViewById(R.id.catergories_view);
+        confirm_button = findViewById(R.id.confirm_button);
+        confirm_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         mZomatoDatabase = DataBase.getInstance(this);
         getCatFromDB();
         mCategories.observe(this, new Observer<List<Category>>() {
@@ -51,7 +62,7 @@ public class CategoriesSelectionActivity extends AppCompatActivity {
                 if (categories != null) {
                     for (Category category : categories) {
 
-//                        Toast.makeText(CategoriesSelectionActivity.this, categories.toString(), Toast.LENGTH_SHORT).show();
+                        //                        Toast.makeText(CategoriesSelectionActivity.this, categories.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -103,6 +114,7 @@ public class CategoriesSelectionActivity extends AppCompatActivity {
     }
 
     int i;
+
     private void handleAddRemoveCate(Category category, CatresButton catresButton) {
         runOnUiThread(new Runnable() {
             @Override

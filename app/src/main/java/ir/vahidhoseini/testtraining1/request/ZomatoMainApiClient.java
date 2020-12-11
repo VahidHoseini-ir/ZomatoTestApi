@@ -26,6 +26,7 @@ public class ZomatoMainApiClient {
     private static final String TAG = "ZomatoApiClient";
     private static ZomatoMainApiClient instance;
     private MutableLiveData<List<Restaurants>> mListLiveResturants;
+    private MutableLiveData<List<Restaurants>> mNextListLiveResturants;
     private RetrieveResturantsRunnable mRetrieveResturantsRunnable;
     private int mWhichMutableLiveData;
     private Map<Integer, List<Restaurants>> mListResturantsAndIds = new HashMap<>();
@@ -39,11 +40,15 @@ public class ZomatoMainApiClient {
 
     public ZomatoMainApiClient() {
         mListLiveResturants = new MutableLiveData<>();
+        mNextListLiveResturants = new MutableLiveData<>();
     }
 
 
     public LiveData<List<Restaurants>> getMainListResturants() {
         return mListLiveResturants;
+    }
+    public LiveData<List<Restaurants>> getNextMainListResturants() {
+        return mNextListLiveResturants;
     }
 
 
@@ -56,10 +61,6 @@ public class ZomatoMainApiClient {
 
             List<Restaurants> restaurants = new ArrayList<>();
             mListResturantsAndIds.put(mWhichMutableLiveData, restaurants);
-        } else {
-            Log.e(TAG, "onChanged: list in map is not null : ");
-            List<Restaurants> data = mListResturantsAndIds.get(mWhichMutableLiveData);
-            mListLiveResturants.postValue(data);
         }
 
         if (mRetrieveResturantsRunnable != null) {
@@ -113,17 +114,14 @@ public class ZomatoMainApiClient {
                     return;
                 }
                 if (response.code() == 200) {
-                    List<Restaurants> list = ((ResturantResponse) response.body()).getResturantResponse();
+                    List<Restaurants> list = ((ResturantResponse) response.body()).getResult_found();
                     Log.e(TAG, "onChanged: in zomato : " + list.toString());
 
                     if (start == 1) {
-
                         mListResturantsAndIds.put(mWhichMutableLiveData, list);
                         mListLiveResturants.postValue(list);
 
                     } else {
-                        //                        Log.e(TAG, "ZomatoApiClient mResturants.size :" + mResturants.getValue().size());
-                        //                        List<Restaurants> currentResturants = mListLiveResturants.getValue();
                         List<Restaurants> currentResturants = mListResturantsAndIds.get(mWhichMutableLiveData);
                         currentResturants.addAll(list);
                         Log.e(TAG, "ZomatoApiClient currentResturants :" + currentResturants.size());
@@ -135,14 +133,12 @@ public class ZomatoMainApiClient {
                     String error = response.errorBody().string();
                     Log.e(TAG, "ZomatoApiClient error :" + error);
                     mListLiveResturants.postValue(null);
-                    //                    run();
 
                 }
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e(TAG, "ZomatoApiClient error IOException:" + e.getMessage());
                 mListLiveResturants.postValue(null);
-                //                run();
             }
 
         }

@@ -134,6 +134,12 @@ public class ZomatoRepository {
     public LiveData<List<Restaurants>> getMainListResturants() {
         return mZomatoMainApiClient.getMainListResturants();
     }
+    public void nextReciveMainResturantApi(String query, int start, int count, String category) {
+        mZomatoMainApiClient.ReciveResturantsApi(query, start, count, lat, lon, cuisines, category, sort, order);
+    }
 
+    public LiveData<List<Restaurants>> getNextMainListResturants() {
+        return mZomatoMainApiClient.getNextMainListResturants();
+    }
 
 }

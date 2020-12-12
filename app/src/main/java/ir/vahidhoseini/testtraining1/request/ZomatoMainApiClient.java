@@ -47,8 +47,15 @@ public class ZomatoMainApiClient {
     public LiveData<List<Restaurants>> getMainListResturants() {
         return mListLiveResturants;
     }
+
     public LiveData<List<Restaurants>> getNextMainListResturants() {
         return mNextListLiveResturants;
+    }
+
+    public Restaurants getResturant(int position, int category) {
+        Log.e(TAG, "onChanged: mListResturantsAndIds : " + mListResturantsAndIds.get(category));
+
+        return mListResturantsAndIds.get(category).get(position);
     }
 
 

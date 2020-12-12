@@ -1,5 +1,6 @@
 package ir.vahidhoseini.testtraining1.utill;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -8,6 +9,7 @@ import android.net.NetworkInfo;
 public class MyApplication extends Application {
 
     public static MyApplication instance;
+    public static Activity currentActivity;
 
     @Override
     public void onCreate() {

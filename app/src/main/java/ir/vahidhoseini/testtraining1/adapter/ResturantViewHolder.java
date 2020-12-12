@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ir.vahidhoseini.testtraining1.R;
@@ -20,11 +21,13 @@ public class ResturantViewHolder extends RecyclerView.ViewHolder implements View
     TextView locality;
     TextView address;
     TextView phone_number;
-    OnClickListener onResturantListener;
+    OnClickListener onClickListener;
+    int categoryId;
 
-    public ResturantViewHolder(@NonNull View itemView, OnClickListener onResturantListener) {
+    public ResturantViewHolder(@NonNull View itemView,OnClickListener onClickListener ,  int categoryId) {
         super(itemView);
-        this.onResturantListener = onResturantListener;
+        this.onClickListener = onClickListener;
+        this.categoryId = categoryId;
         featured_image = itemView.findViewById(R.id.featured_image);
         timing = itemView.findViewById(R.id.timing);
         cuisines = itemView.findViewById(R.id.cuisines);
@@ -40,6 +43,9 @@ public class ResturantViewHolder extends RecyclerView.ViewHolder implements View
 
     @Override
     public void onClick(View view) {
-        onResturantListener.onClickListener(getAdapterPosition());
+        onClickListener.onClickListener(getAdapterPosition());
     }
 }
+
+
+

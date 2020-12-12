@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 import ir.vahidhoseini.testtraining1.model.zomato.Category;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
+import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.request.ZomatoApiClient;
 import ir.vahidhoseini.testtraining1.request.ZomatoMainApiClient;
@@ -140,6 +141,9 @@ public class ZomatoRepository {
 
     public LiveData<List<Restaurants>> getNextMainListResturants() {
         return mZomatoMainApiClient.getNextMainListResturants();
+    }
+    public Restaurants getResturant(int position , int category){
+        return mZomatoMainApiClient.getResturant(position , category);
     }
 
 }

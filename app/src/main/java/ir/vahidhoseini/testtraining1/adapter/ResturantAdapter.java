@@ -43,7 +43,7 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         switch (viewType) {
             case ResturantView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_resturant, viewGroup, false);
-                return new ResturantViewHolder(view, onClickListener);
+                return new ResturantViewHolder(view, onClickListener , 0);
             }
             case LoadingView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loading_progress, viewGroup, false);

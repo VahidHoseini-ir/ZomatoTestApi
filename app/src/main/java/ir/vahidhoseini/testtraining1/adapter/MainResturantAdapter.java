@@ -1,9 +1,11 @@
 package ir.vahidhoseini.testtraining1.adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,15 +17,20 @@ import java.util.List;
 
 import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
+import ir.vahidhoseini.testtraining1.utill.MyApplication;
+import ir.vahidhoseini.testtraining1.view.DetailResturantActivity;
 
-public class MainResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MainResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnClickListener {
 
     private List<Restaurants> resturants;
-    private OnClickListener onListItemClickListener;
+    private int categoryId;
+    private OnClickListener onClickListener;
 
 
-    public MainResturantAdapter(OnClickListener onListItemClickListener) {
-        this.onListItemClickListener = onListItemClickListener;
+    public MainResturantAdapter(int categoryId) {
+        this.categoryId = categoryId;
+        onClickListener = this;
+
     }
 
 
@@ -32,7 +39,7 @@ public class MainResturantAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = null;
         view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_main_item_resturant, viewGroup, false);
-        return new ResturantViewHolder(view, onListItemClickListener);
+        return new ResturantViewHolder(view, onClickListener, categoryId);
     }
 
     @Override
@@ -64,4 +71,18 @@ public class MainResturantAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onClickListener(int position) {
+//        Toast.makeText(MyApplication.currentActivity, "POSITION :" + resturants.get(position).getRestaurant(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MyApplication.currentActivity, DetailResturantActivity.class);
+        intent.putExtra("Restaurants", resturants.get(position).getRestaurant());
+        intent.putExtra("Location", resturants.get(position).getRestaurant().getLocation());
+        MyApplication.currentActivity.startActivity(intent);
+    }
+
+    //                mViewModel.getResturant(position, category-1);
+    //                Intent intent = new Intent(MainActivity.this, DetailResturantActivity.class);
+    //                intent.putExtra("Restaurants", mViewModel.getResturant(position, category));
+    //                startActivity(intent);
+    //                Toast.makeText(MainActivity.this, "POSITION :" + position, Toast.LENGTH_SHORT).show();
 }

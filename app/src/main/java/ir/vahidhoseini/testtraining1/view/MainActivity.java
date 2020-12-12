@@ -41,9 +41,12 @@ import ir.vahidhoseini.testtraining1.BaseActivity;
 import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.adapter.ListRecyclerViewsAdapater;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
+import ir.vahidhoseini.testtraining1.adapter.OnResturantListener;
 import ir.vahidhoseini.testtraining1.adapter.ResturantAdapter;
 import ir.vahidhoseini.testtraining1.model.zomato.Category;
+import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
+import ir.vahidhoseini.testtraining1.utill.MyApplication;
 import ir.vahidhoseini.testtraining1.viewmodel.MainViewModel;
 
 import static ir.vahidhoseini.testtraining1.utill.Constant.COUNT_OF_RESTURANT_LIST_MAIN;
@@ -61,6 +64,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     private double lat = 40.742051;
     private double lon = -74.004821;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.currentActivity = this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     boolean first = true;
+
     private void showResturantType() {
         mViewModel.getMainListResturants().observe(this, new Observer<List<Restaurants>>() {
             @Override
@@ -132,7 +141,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initRecyclerView() {
-        mListRecyclerViewsAdapter = new ListRecyclerViewsAdapater(this, getResturantsClickListener(), this);
+        mListRecyclerViewsAdapter = new ListRecyclerViewsAdapater(this,  this);
         mAllListRecycles = findViewById(R.id.all_list_of_datas);
         mAllListRecycles.setAdapter(mListRecyclerViewsAdapter);
         mAllListRecycles.setLayoutManager(new LinearLayoutManager(this));
@@ -172,14 +181,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
 
-    public OnClickListener getResturantsClickListener() {
-        return new OnClickListener() {
-            @Override
-            public void onClickListener(int position) {
-                Toast.makeText(MainActivity.this, "POSITION :" + position, Toast.LENGTH_SHORT).show();
-            }
-        };
-    }
 
     @Override
     public void onClickListener(int position) { // This onclick work on the more btn for each recyclerview in main activity.

@@ -15,12 +15,13 @@ import java.util.List;
 import ir.vahidhoseini.testtraining1.BaseActivity;
 import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
+import ir.vahidhoseini.testtraining1.adapter.OnResturantListener;
 import ir.vahidhoseini.testtraining1.adapter.ResturantAdapter;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.repository.DataBase;
 import ir.vahidhoseini.testtraining1.viewmodel.ResturantViewModel;
 
-public class ResturantActivity extends BaseActivity implements OnClickListener {
+public class ResturantActivity extends BaseActivity implements OnResturantListener {
 
     private ResturantViewModel mResturantViewModel;
     private RecyclerView resturantRecyclerView;
@@ -113,7 +114,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
     }
 
     @Override
-    public void onClickListener(int position) {
+    public void onClickListener(int position, int category) {
 
     }
 

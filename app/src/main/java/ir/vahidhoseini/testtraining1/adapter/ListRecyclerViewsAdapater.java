@@ -20,17 +20,16 @@ import ir.vahidhoseini.testtraining1.viewmodel.MainViewModel;
 public class ListRecyclerViewsAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context Context;
+    private Map<Integer, Integer> mWhichCategoryList = new HashMap<>();
     private Map<Integer, String> mWhichResturanList = new HashMap<>();
     private Map<Integer, List<Restaurants>> mAllListOfResturants = new HashMap<>();
     private int mPosition = 0;
     private final int mRecyclerviewType = 1, mLoadingviewType = 2, mBannerView = 3;
     private OnClickListener onMoreClickListener;
-    private OnClickListener onListItemClickListener;
 
-    public ListRecyclerViewsAdapater(OnClickListener onMoreClickListener,OnClickListener onListItemClickListener , Context context) {
+    public ListRecyclerViewsAdapater(OnClickListener onMoreClickListener,  Context context) {
         this.Context = context;
         this.onMoreClickListener = onMoreClickListener;
-        this.onListItemClickListener = onListItemClickListener;
     }
 
     @NonNull
@@ -59,7 +58,7 @@ public class ListRecyclerViewsAdapater extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == mRecyclerviewType) {
             if (mAllListOfResturants.get(position) != null) {
-                ((RecyclerviewViewHolder) holder).setData(mAllListOfResturants.get(position), mWhichResturanList.get(position), position, onListItemClickListener);
+                ((RecyclerviewViewHolder) holder).setData(mAllListOfResturants.get(position), mWhichResturanList.get(position), mWhichCategoryList.get(position));
             }
         } else if (getItemViewType(position) == mBannerView) {
             ((BannerViewHolder) holder).mBannerView.setImageDrawable(Context.getDrawable(R.drawable.restaurant_banner));
@@ -115,6 +114,7 @@ public class ListRecyclerViewsAdapater extends RecyclerView.Adapter<RecyclerView
         }
         mWhichResturanList.put(mPosition, nameListOfResturant);
         mAllListOfResturants.put(mPosition, listOfResturants);
+        mWhichCategoryList.put(mPosition, idListOfResturant);
         mPosition++;
         notifyDataSetChanged();
     }

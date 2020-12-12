@@ -32,8 +32,6 @@ public class Restaurant implements Parcelable {
     private String currency;
     @ColumnInfo(name = "thumb")
     private String thumb;
-    //    @ColumnInfo(name = "highlights")
-    //    @TypeConverters()
     @Ignore
     private String[] highlights;
     @ColumnInfo(name = "featured_image")

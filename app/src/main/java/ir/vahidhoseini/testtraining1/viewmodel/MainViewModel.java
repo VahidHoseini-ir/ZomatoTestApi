@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import java.util.List;
 import ir.vahidhoseini.testtraining1.model.zomato.Category;
+import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.repository.ZomatoRepository;
 
@@ -38,4 +39,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
 
+    public Restaurants getResturant(int position , int category) {
+        return mZomatoRepository.getResturant(position , category);
+    }
 }

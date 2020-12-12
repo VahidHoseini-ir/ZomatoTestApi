@@ -28,7 +28,6 @@ public class RecyclerviewViewHolder extends RecyclerView.ViewHolder implements V
     TextView more;
     RecyclerView main_resturant_list;
     OnClickListener onResturantListener;
-    OnClickListener onListItemClickListener;
     int startPoint = 0;
     int categoryId = 0;
 
@@ -42,9 +41,8 @@ public class RecyclerviewViewHolder extends RecyclerView.ViewHolder implements V
         more.setOnClickListener(this);
     }
 
-    public void setData(List<Restaurants> restaurants, String categoryName, int categoryid, OnClickListener onListItemClickListener) {
+    public void setData(List<Restaurants> restaurants, String categoryName, int categoryid) {
         if (restaurants.size() > 1) {
-            this.onListItemClickListener = onListItemClickListener;
             startPoint = restaurants.size();
             categoryId = categoryid;
             initRecyclerView();
@@ -55,7 +53,7 @@ public class RecyclerviewViewHolder extends RecyclerView.ViewHolder implements V
     }
 
     private void initRecyclerView() {
-        resturantAdapter = new MainResturantAdapter(onListItemClickListener);
+        resturantAdapter = new MainResturantAdapter( categoryId);
         main_resturant_list.setAdapter(resturantAdapter);
         main_resturant_list.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, true));
     }

@@ -14,14 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.vahidhoseini.testtraining1.R;
-import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
 public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Restaurants> resturants = new ArrayList<>();
     private OnClickListener onClickListener;
-    public int mViewType = 0;
     public final int ResturantView = 1;
     public final int LoadingView = 2;
     public final int ExhaustedView = 3;
@@ -102,11 +100,9 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void displayLoading() {
         if (!isLoading()) {
-            List<Restaurants> list = new ArrayList<>();
             Restaurants restaurants = new Restaurants();
             restaurants.setId(LoadingView);
             resturants.add(restaurants);
-            //            resturants = list;
             notifyDataSetChanged();
         }
     }
@@ -135,11 +131,9 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void setRecyclerExauhsted() {
         hideLoading();
-        List<Restaurants> list = new ArrayList<>();
         Restaurants restaurants = new Restaurants();
         restaurants.setId(ExhaustedView);
         resturants.add(restaurants);
-        //        resturants = list;
         notifyDataSetChanged();
     }
 

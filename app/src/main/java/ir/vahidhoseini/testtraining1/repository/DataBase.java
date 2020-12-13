@@ -11,7 +11,7 @@ import ir.vahidhoseini.testtraining1.model.zomato.Category;
 import ir.vahidhoseini.testtraining1.model.zomato.Collection;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
-@Database(entities = {Collection.class, Restaurants.class, Category.class}, version =6)
+@Database(entities = {Collection.class, Restaurants.class, Category.class}, version =7)
 public abstract class DataBase extends RoomDatabase {
 
     private static DataBase instance;

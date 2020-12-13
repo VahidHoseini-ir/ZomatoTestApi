@@ -22,8 +22,6 @@ public class ResturantResponse {
     }
 
     public List<Restaurants> getResturantResponse() {
-        ResturantResponse.get(1).setResults_found(result_found);
-        ResturantResponse.get(1).setResults_start(results_start);
         return ResturantResponse;
     }
 }

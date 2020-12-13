@@ -3,27 +3,16 @@ package ir.vahidhoseini.testtraining1.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.transition.TransitionManager;
+import android.view.MenuItem;
 import android.view.Menu;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,14 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import ir.vahidhoseini.testtraining1.BaseActivity;
 import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.adapter.ListRecyclerViewsAdapater;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
-import ir.vahidhoseini.testtraining1.adapter.OnResturantListener;
-import ir.vahidhoseini.testtraining1.adapter.ResturantAdapter;
 import ir.vahidhoseini.testtraining1.model.zomato.Category;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
@@ -141,7 +127,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initRecyclerView() {
-        mListRecyclerViewsAdapter = new ListRecyclerViewsAdapater(this,  this);
+        mListRecyclerViewsAdapter = new ListRecyclerViewsAdapater(this, this);
         mAllListRecycles = findViewById(R.id.all_list_of_datas);
         mAllListRecycles.setAdapter(mListRecyclerViewsAdapter);
         mAllListRecycles.setLayoutManager(new LinearLayoutManager(this));
@@ -181,6 +167,30 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail_resturant, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.app_bar_search: {
+                Toast.makeText(MainActivity.this, "app_bar_search :", Toast.LENGTH_SHORT).show();
+                TransitionManager.beginDelayedTransition((ViewGroup) this.findViewById(R.id.toolbar));
+                MenuItemCompat.expandActionView(item);
+                startActivity(new Intent(MainActivity.this, ResturantActivity.class));
+
+                return true;
+            }
+            case R.id.zomato_location: {
+                Toast.makeText(MainActivity.this, "zomato_location :", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onClickListener(int position) { // This onclick work on the more btn for each recyclerview in main activity.

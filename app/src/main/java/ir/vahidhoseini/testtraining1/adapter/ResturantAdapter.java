@@ -14,27 +14,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.vahidhoseini.testtraining1.R;
-import ir.vahidhoseini.testtraining1.model.zomato.Collection;
-import ir.vahidhoseini.testtraining1.model.zomato.Collections;
+import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
 public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Restaurants> resturants;
+    private List<Restaurants> resturants = new ArrayList<>();
     private OnClickListener onClickListener;
-    private int viewHolderType;
+    public int mViewType = 0;
     public final int ResturantView = 1;
-    public final int LoadingView = 3;
-    public final int recyclerviewExhausted = 4;
+    public final int LoadingView = 2;
+    public final int ExhaustedView = 3;
 
 
-    public ResturantAdapter(OnClickListener onCollectionClickListener) {
-        this.onClickListener = onCollectionClickListener;
+    public ResturantAdapter(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
-    public void setViewType(int viewType) {
-        this.viewHolderType = viewType;
-    }
 
     @NonNull
     @Override
@@ -43,13 +39,13 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         switch (viewType) {
             case ResturantView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_resturant, viewGroup, false);
-                return new ResturantViewHolder(view, onClickListener , 0);
+                return new ResturantViewHolder(view, onClickListener, 0);
             }
             case LoadingView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loading_progress, viewGroup, false);
                 return new LoadingViewHolder(view);
             }
-            case recyclerviewExhausted: {
+            case ExhaustedView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_viewexhausted, viewGroup, false);
                 return new LoadingViewHolder(view);
             }
@@ -62,8 +58,6 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         int itemViewType = getItemViewType(position);
         if (itemViewType == ResturantView) {
-            Log.e("zomato adapter", "getResults_found:" + Integer.parseInt(resturants.get(1).getResults_found()));
-            Log.e("zomato adapter", "resturant size:" + resturants.size());
             if (!resturants.get(position).getRestaurant().getFeatured_image().isEmpty()) {
                 Log.w("tokhmi", "getFeatured_image: " + resturants.get(position).getRestaurant().getFeatured_image());
                 Picasso.get().load(resturants.get(position).getRestaurant().getFeatured_image()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(((ResturantViewHolder) holder).featured_image);
@@ -84,26 +78,18 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public int getResturantSize() {
-        return resturants.size();
-    }
-
     @Override
     public int getItemViewType(int position) {
-        if (viewHolderType == ResturantView) {
-            if (resturants.get(position).getViewType() == LoadingView) {
-                return LoadingView;
-            } else if (resturants.size() - 1 == position && position != 0) {
-                if (resturants.size() >= Integer.parseInt(resturants.get(1).getResults_found()) - 10) {
-                    return recyclerviewExhausted;
-                } else {
-                    return LoadingView;
-                }
-            } else {
-                return ResturantView;
-            }
+
+        if (resturants.get(position).getId() == LoadingView) {
+            return LoadingView;
+        } else if (resturants.get(position).getId() == ExhaustedView) {
+            return ExhaustedView;
+        } else if (position == resturants.size() - 1 && position != 0 && resturants.get(position).getId() != ExhaustedView) {
+            return LoadingView;
+        } else {
+            return ResturantView;
         }
-        return 0;
     }
 
     @Override
@@ -115,40 +101,52 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void displayLoading() {
-        if (viewHolderType == ResturantView) {
-            if (!isLoading()) {
-                Restaurants restaurant = new Restaurants();
-                restaurant.setViewType(LoadingView);
-                List<Restaurants> restaurants = new ArrayList<>();
-                restaurants.add(restaurant);
-                resturants = restaurants;
-                notifyDataSetChanged();
-            }
+        if (!isLoading()) {
+            List<Restaurants> list = new ArrayList<>();
+            Restaurants restaurants = new Restaurants();
+            restaurants.setId(LoadingView);
+            resturants.add(restaurants);
+            //            resturants = list;
+            notifyDataSetChanged();
         }
-
     }
 
-
     private boolean isLoading() {
-        if (viewHolderType == ResturantView) {
-            if (resturants != null) {
-                if (resturants.size() > 0) {
-                    if (resturants.get(resturants.size() - 1).getViewType() == LoadingView) {
-                        return true;
-                    }
+        if (resturants != null) {
+            if (resturants.size() > 0) {
+                if (resturants.get(resturants.size() - 1).getId() == LoadingView) {
+                    return true;
                 }
-
             }
         }
         return false;
     }
 
-    public void setResturants(List<Restaurants> resturants) {
-        if (resturants.get(1) != null) {
-            this.resturants = resturants;
-            notifyDataSetChanged();
+    private void hideLoading() {
+        for (int i = 0; i < resturants.size(); i++) {
+            Restaurants restaurant = resturants.get(i);
+            if (restaurant.getId() == LoadingView) {
+                resturants.remove(restaurant);
+            }
         }
+        notifyDataSetChanged();
 
+    }
+
+    public void setRecyclerExauhsted() {
+        hideLoading();
+        List<Restaurants> list = new ArrayList<>();
+        Restaurants restaurants = new Restaurants();
+        restaurants.setId(ExhaustedView);
+        resturants.add(restaurants);
+        //        resturants = list;
+        notifyDataSetChanged();
+    }
+
+    public void setResturants(List<Restaurants> Resturants) {
+        hideLoading();
+        this.resturants = Resturants;
+        notifyDataSetChanged();
     }
 
 

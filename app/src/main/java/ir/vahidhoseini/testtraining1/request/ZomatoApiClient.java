@@ -74,38 +74,34 @@ public class ZomatoApiClient {
         return mCollection;
     }
 
+    private Thread thread;
+
     public void ReciveCollectionApi(int cityId, int count) {
         if (mRetrieveCollectionRunnable != null) {
             mRetrieveCollectionRunnable = null;
         }
         mRetrieveCollectionRunnable = new RetrieveCollectionRunnable(cityId, count);
-        final Future handler = AppExecutors.getInstance().networkIO().submit(mRetrieveCollectionRunnable);
-        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
-            @Override
-            public void run() {
-                handler.cancel(true);
-            }
-        }, NETWORK_TIMEOUT, TimeUnit.MILLISECONDS);
+        if (thread != null) {
+            thread = null;
+        }
+        thread = new Thread(mRetrieveCollectionRunnable);
     }
 
     public LiveData<List<Restaurants>> getResturants() {
         return mResturants;
     }
 
+
     public void ReciveResturantsApi(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
         if (mRetrieveResturantsRunnable != null) {
             mRetrieveResturantsRunnable = null;
         }
         mRetrieveResturantsRunnable = new RetrieveResturantsRunnable(query, start, count, lat, lon, cuisines, category, sort, order);
-        final Future handler = AppExecutors.getInstance().networkIO().submit(mRetrieveResturantsRunnable);
-        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
-            @Override
-            public void run() {
-                handler.cancel(true);
-                mResturants.postValue(null);
-
-            }
-        }, NETWORK_TIMEOUT, TimeUnit.MILLISECONDS);
+        if (thread != null) {
+            thread = null;
+        }
+        thread = new Thread(mRetrieveResturantsRunnable);
+        thread.start();
     }
 
 
@@ -189,7 +185,7 @@ public class ZomatoApiClient {
         }
 
         private void CancelRequest() {
-            Log.d(TAG, "CancelRequest: canceling the getCollectionResponse request");
+            //            Log.d(TAG, "CancelRequest: canceling the getCollectionResponse request");
             cancelRequest = true;
         }
     }
@@ -229,24 +225,27 @@ public class ZomatoApiClient {
                     return;
                 }
                 if (response.code() == 200) {
-                    List<Restaurants> list = ((ResturantResponse) response.body()).getResturantResponse();
-                    if (start == 1) {
-                        mResturants.postValue(list);
-                    } else {
-                        Log.e(TAG, "ZomatoApiClient mResturants.size :" + mResturants.getValue().size());
-                        List<Restaurants> currentResturants = mResturants.getValue();
-                        currentResturants.addAll(list);
-                        Log.e(TAG, "ZomatoApiClient currentResturants :" + currentResturants.size());
-                        mResturants.postValue(currentResturants);
+                    List<Restaurants> list = null;
+                    list = ((ResturantResponse) response.body()).getResturantResponse();
+                    if(list.size()>1) {
+                        if (start == 1) {
+                            mResturants.postValue(list);
+                        } else {
+                            List<Restaurants> currentResturants = mResturants.getValue();
+                            currentResturants.addAll(list);
+                            mResturants.postValue(currentResturants);
+                        }
+                    }else {
+                        mResturants.postValue(null);
                     }
                 } else {
                     String error = response.errorBody().string();
-                    Log.e(TAG, "ZomatoApiClient error :" + error);
+                    //                    Log.e(TAG, "ZomatoApiClient error :" + error);
                     mResturants.postValue(null);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e(TAG, "ZomatoApiClient error IOException:" + e.getMessage());
+                //                Log.e(TAG, "ZomatoApiClient error IOException:" + e.getMessage());
                 mResturants.postValue(null);
             }
 

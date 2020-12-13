@@ -1,5 +1,7 @@
 package ir.vahidhoseini.testtraining1.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -34,16 +36,21 @@ public class DetailResturantActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         setSupportActionBar(binding.toolbar);
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-            }
-        });
         if (getIntent().getExtras() != null) {
             Restaurant restaurants = getIntent().getExtras().getParcelable("Restaurants");
             Location location = getIntent().getExtras().getParcelable("Location");
+
+            binding.fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Uri gmmIntentUri = Uri.parse("google.streetview:cbll="+location.getLatitude()+","+location.getLongitude());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(mapIntent);
+                }
+            });
 
 
             binding.toolbarLayout.setTitle(restaurants.getName());

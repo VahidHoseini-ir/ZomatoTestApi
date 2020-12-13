@@ -9,9 +9,11 @@
 
     <TextView
         android:id="@+id/animation_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:gravity="center"
-        android:text="items are finished" />
+        android:drawableRight="@drawable/ic_baseline_sentiment_very_dissatisfied_24"
+        android:drawableTint="@android:color/black"
+        android:text="No more items found" />
 
 </LinearLayout>

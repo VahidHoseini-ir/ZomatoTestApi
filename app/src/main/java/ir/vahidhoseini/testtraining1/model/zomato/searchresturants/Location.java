@@ -6,15 +6,10 @@ import android.os.Parcelable;
 import androidx.room.ColumnInfo;
 
 public class Location implements Parcelable {
-    @ColumnInfo(name = "address")
     private String address;
-    @ColumnInfo(name = "locality")
     private String locality;
-    @ColumnInfo(name = "city")
     private String city;
-    @ColumnInfo(name = "latitude")
     private String latitude;
-    @ColumnInfo(name = "longitude")
     private String longitude;
 
     protected Location(Parcel in) {

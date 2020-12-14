@@ -7,6 +7,4 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">300dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="paddingleft">16dp</dimen>
-    <dimen name="paddingright">16dp</dimen>
 </resources>

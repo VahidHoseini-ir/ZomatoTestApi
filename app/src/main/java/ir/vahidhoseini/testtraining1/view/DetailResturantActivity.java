@@ -4,26 +4,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import ir.vahidhoseini.testtraining1.R;
-import ir.vahidhoseini.testtraining1.adapter.ResturantViewHolder;
 import ir.vahidhoseini.testtraining1.databinding.ActivityDetailResturantBinding;
-import ir.vahidhoseini.testtraining1.databinding.ActivityMainBinding;
-import ir.vahidhoseini.testtraining1.databinding.ContentScrollingBinding;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Location;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
-import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
 public class DetailResturantActivity extends AppCompatActivity {
 

@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ir.vahidhoseini.testtraining1.R;
 
-public class LoadingViewHolder extends RecyclerView.ViewHolder {
+public class ViewHolderLoading extends RecyclerView.ViewHolder {
     TextView textview;
-    public LoadingViewHolder(@NonNull View itemView) {
+    public ViewHolderLoading(@NonNull View itemView) {
         super(itemView);
         textview = itemView.findViewById(R.id.textview);
     }

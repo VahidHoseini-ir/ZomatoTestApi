@@ -13,30 +13,24 @@ import ir.vahidhoseini.testtraining1.model.zomato.Collections;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.repository.Repository;
 
-public class MainViewModel extends AndroidViewModel {
+public class CategoriesViewModel extends AndroidViewModel {
     private Repository mZomatoRepository;
 
-    public MainViewModel(@NonNull Application application) {
+    public CategoriesViewModel(@NonNull Application application) {
         super(application);
         mZomatoRepository = Repository.getInstance();
-
     }
 
-    public void reciveMainResturantsApi( String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
-        mZomatoRepository.reciveMainResturantsApi( query, start, count, lat, lon, cuisines, category, sort, order);
+    public void reciveMainResturantsApi(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
+        mZomatoRepository.reciveMainResturantsApi(query, start, count, lat, lon, cuisines, category, sort, order);
     }
 
     public LiveData<List<Restaurants>> getMainListResturants() {
-        return mZomatoRepository.getResturants();
+        return mZomatoRepository.getMainListResturants();
     }
-
 
     public LiveData<List<Collections>> getCollections() {
         return mZomatoRepository.getCollections();
-    }
-
-    public void reciveColletionApi(Map<String , Object> params) {
-        mZomatoRepository.reciveColletionApi(params);
     }
 
 

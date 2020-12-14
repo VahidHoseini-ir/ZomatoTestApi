@@ -3,18 +3,11 @@ package ir.vahidhoseini.testtraining1.model.zomato.searchresturants;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
-import androidx.room.Entity;
 import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
-import androidx.room.TypeConverters;
 
 import java.util.Arrays;
-
-import ir.vahidhoseini.testtraining1.repository.Converters;
 
 public class Restaurant implements Parcelable {
 //    @NonNull

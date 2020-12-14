@@ -9,38 +9,22 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "collection")
 public class Collection implements Parcelable {
 
-    @NonNull
-    @PrimaryKey
+    private String res_count;
     private String collection_id;
-    @ColumnInfo(name = "title")
     private String title;
-    @ColumnInfo(name = "url")
     private String url;
-    @ColumnInfo(name = "description")
     private String description;
-    @ColumnInfo(name = "image_url")
     private String image_url;
-    @ColumnInfo(name = "share_url")
     private String share_url;
 
-
-    @Ignore
-    public Collection(String collection_id, String title, String url, String description, String image_url, String share_url) {
-        this.collection_id = collection_id;
-        this.title = title;
-        this.url = url;
-        this.description = description;
-        this.image_url = image_url;
-        this.share_url = share_url;
-    }
 
     public Collection() {
     }
 
     protected Collection(Parcel in) {
+        res_count = in.readString();
         collection_id = in.readString();
         title = in.readString();
         url = in.readString();
@@ -63,7 +47,25 @@ public class Collection implements Parcelable {
 
     @Override
     public String toString() {
-        return "Collection{" + "collection_id='" + collection_id + '\'' + ", title='" + title + '\'' + ", url='" + url + '\'' + ", description='" + description + '\'' + ", image_url='" + image_url + '\'' + ", share_url='" + share_url + '\'' + '}';
+        return "Collection{" + "res_count='" + res_count + '\'' + ", collection_id='" + collection_id + '\'' + ", title='" + title + '\'' + ", url='" + url + '\'' + ", description='" + description + '\'' + ", image_url='" + image_url + '\'' + ", share_url='" + share_url + '\'' + '}';
+    }
+
+    public Collection(String res_count, String collection_id, String title, String url, String description, String image_url, String share_url) {
+        this.res_count = res_count;
+        this.collection_id = collection_id;
+        this.title = title;
+        this.url = url;
+        this.description = description;
+        this.image_url = image_url;
+        this.share_url = share_url;
+    }
+
+    public String getRes_count() {
+        return res_count;
+    }
+
+    public void setRes_count(String res_count) {
+        this.res_count = res_count;
     }
 
     public String getCollection_id() {
@@ -114,6 +116,7 @@ public class Collection implements Parcelable {
         this.share_url = share_url;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -121,6 +124,7 @@ public class Collection implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(res_count);
         parcel.writeString(collection_id);
         parcel.writeString(title);
         parcel.writeString(url);

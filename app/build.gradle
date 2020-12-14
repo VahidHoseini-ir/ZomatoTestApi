@@ -92,7 +92,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //flow layout
-    implementation "cn.lankton:flowlayout:$flowlayou_version"
+//    implementation "cn.lankton:flowlayout:$flowlayou_version"
 
 
 

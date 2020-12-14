@@ -10,15 +10,9 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "category")
 public class Category implements Parcelable {
-    @NonNull
-    @PrimaryKey
-    @ColumnInfo(name = "id")
     private String id;
-    @ColumnInfo(name = "name")
     private String name;
-    @ColumnInfo(name = "check")
     private String check;
 
     public static final Creator<Category> CREATOR = new Creator<Category>() {

@@ -10,54 +10,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
-import ir.vahidhoseini.testtraining1.AppExecutors;
-import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.request.zomatoresponse.ResturantResponse;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static ir.vahidhoseini.testtraining1.utill.Constant.NETWORK_TIMEOUT;
-
-public class ZomatoMainApiClient {
+public class MainApiClient {
     private static final String TAG = "ZomatoApiClient";
-    private static ZomatoMainApiClient instance;
+    private static MainApiClient instance;
     private MutableLiveData<List<Restaurants>> mListLiveResturants;
-    private MutableLiveData<List<Restaurants>> mNextListLiveResturants;
     private RetrieveResturantsRunnable mRetrieveResturantsRunnable;
     private int mWhichMutableLiveData;
     private Map<Integer, List<Restaurants>> mListResturantsAndIds = new HashMap<>();
 
-    public static ZomatoMainApiClient getInstance() {
+    public static MainApiClient getInstance() {
         if (instance == null) {
-            instance = new ZomatoMainApiClient();
+            instance = new MainApiClient();
         }
         return instance;
     }
 
-    public ZomatoMainApiClient() {
+    public MainApiClient() {
         mListLiveResturants = new MutableLiveData<>();
-        mNextListLiveResturants = new MutableLiveData<>();
     }
 
 
     public LiveData<List<Restaurants>> getMainListResturants() {
         return mListLiveResturants;
     }
-
-    public LiveData<List<Restaurants>> getNextMainListResturants() {
-        return mNextListLiveResturants;
-    }
-
-    public Restaurants getResturant(int position, int category) {
-        Log.e(TAG, "onChanged: mListResturantsAndIds : " + mListResturantsAndIds.get(category));
-
-        return mListResturantsAndIds.get(category).get(position);
-    }
-
 
     private Thread thread;
 

@@ -16,7 +16,7 @@ import java.util.List;
 import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
-public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterResturant extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Restaurants> resturants = new ArrayList<>();
     private OnClickListener onClickListener;
@@ -25,7 +25,7 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public final int ExhaustedView = 3;
 
 
-    public ResturantAdapter(OnClickListener onClickListener) {
+    public AdapterResturant(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
@@ -37,15 +37,15 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         switch (viewType) {
             case ResturantView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_resturant, viewGroup, false);
-                return new ResturantViewHolder(view, onClickListener, 0);
+                return new ViewHolderResturant(view, onClickListener, 0);
             }
             case LoadingView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loading_progress, viewGroup, false);
-                return new LoadingViewHolder(view);
+                return new ViewHolderLoading(view);
             }
             case ExhaustedView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_viewexhausted, viewGroup, false);
-                return new LoadingViewHolder(view);
+                return new ViewHolderLoading(view);
             }
         }
         return null;
@@ -58,20 +58,20 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (itemViewType == ResturantView) {
             if (!resturants.get(position).getRestaurant().getFeatured_image().isEmpty()) {
                 Log.w("tokhmi", "getFeatured_image: " + resturants.get(position).getRestaurant().getFeatured_image());
-                Picasso.get().load(resturants.get(position).getRestaurant().getFeatured_image()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(((ResturantViewHolder) holder).featured_image);
+                Picasso.get().load(resturants.get(position).getRestaurant().getFeatured_image()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(((ViewHolderResturant) holder).featured_image);
             } else {
-                Picasso.get().load(R.drawable.returant_placeholder).into(((ResturantViewHolder) holder).featured_image);
+                Picasso.get().load(R.drawable.returant_placeholder).into(((ViewHolderResturant) holder).featured_image);
             }
-            ((ResturantViewHolder) holder).timing.setText(resturants.get(position).getRestaurant().getTimings());
-            ((ResturantViewHolder) holder).cuisines.setText(resturants.get(position).getRestaurant().getCuisines());
-            ((ResturantViewHolder) holder).name.setText(resturants.get(position).getRestaurant().getName());
-            ((ResturantViewHolder) holder).average_cost.setText("Average cost for two : " + resturants.get(position).getRestaurant().getAverage_cost_for_two() + " " + resturants.get(position).getRestaurant().getCurrency());
-            ((ResturantViewHolder) holder).city.setText("City : " + resturants.get(position).getRestaurant().getLocation().getCity());
-            ((ResturantViewHolder) holder).locality.setText("Locality : " + resturants.get(position).getRestaurant().getLocation().getLocality());
-            ((ResturantViewHolder) holder).address.setText("Address : " + resturants.get(position).getRestaurant().getLocation().getAddress());
-            ((ResturantViewHolder) holder).phone_number.setText("Phone number : " + resturants.get(position).getRestaurant().getPhone_numbers());
+            ((ViewHolderResturant) holder).timing.setText(resturants.get(position).getRestaurant().getTimings());
+            ((ViewHolderResturant) holder).cuisines.setText(resturants.get(position).getRestaurant().getCuisines());
+            ((ViewHolderResturant) holder).name.setText(resturants.get(position).getRestaurant().getName());
+            ((ViewHolderResturant) holder).average_cost.setText("Average cost for two : " + resturants.get(position).getRestaurant().getAverage_cost_for_two() + " " + resturants.get(position).getRestaurant().getCurrency());
+            ((ViewHolderResturant) holder).city.setText("City : " + resturants.get(position).getRestaurant().getLocation().getCity());
+            ((ViewHolderResturant) holder).locality.setText("Locality : " + resturants.get(position).getRestaurant().getLocation().getLocality());
+            ((ViewHolderResturant) holder).address.setText("Address : " + resturants.get(position).getRestaurant().getLocation().getAddress());
+            ((ViewHolderResturant) holder).phone_number.setText("Phone number : " + resturants.get(position).getRestaurant().getPhone_numbers());
         } else if (itemViewType == ExhaustedView) {
-            ((LoadingViewHolder) holder).textview.setText(resturants.size() > 1 ? "No more items found" : "What are you looking for?, no items found.");
+            ((ViewHolderLoading) holder).textview.setText(resturants.size() > 1 ? "No more items found" : "What are you looking for?, no items found.");
         }
 
 

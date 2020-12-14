@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.CategoriesListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -24,25 +24,18 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/ic_sharp_location_on_24"
                     android:gravity="center|left"
-                    android:text="New York"
+                    android:text="Zomato API"
                     android:textAppearance="@android:style/TextAppearance.Large"
                     android:textStyle="bold" />
 
-
             </LinearLayout>
-
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+   <include layout="@layout/content_categories_list" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

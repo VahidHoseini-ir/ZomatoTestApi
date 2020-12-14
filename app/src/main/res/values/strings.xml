@@ -9,9 +9,13 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="zomato_location">ZomatoLocation</string>
 
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="title_activity_detail_resturant">ScrollingActivity</string>
     <string name="search">search</string>
+    <string name="MainCollection">Curated Collections</string>
+    <string name="SeeAll">See All</string>
 
 
 </resources>

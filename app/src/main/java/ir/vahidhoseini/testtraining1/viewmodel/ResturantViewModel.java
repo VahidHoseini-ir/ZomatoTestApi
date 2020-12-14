@@ -6,16 +6,16 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
-import ir.vahidhoseini.testtraining1.repository.ZomatoRepository;
+import ir.vahidhoseini.testtraining1.repository.Repository;
 
 public class ResturantViewModel extends ViewModel {
 
-    private ZomatoRepository mZomatoRepository;
+    private Repository mZomatoRepository;
     private boolean mPerformingQuery = false;
 
 
     public ResturantViewModel() {
-        mZomatoRepository = ZomatoRepository.getInstance();
+        mZomatoRepository = Repository.getInstance();
     }
 
 

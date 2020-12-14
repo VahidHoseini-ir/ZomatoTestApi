@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.HashMap;
@@ -15,9 +14,8 @@ import java.util.Map;
 
 import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
-import ir.vahidhoseini.testtraining1.viewmodel.MainViewModel;
 
-public class ListRecyclerViewsAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapaterListRecyclerViews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context Context;
     private Map<Integer, Integer> mWhichCategoryList = new HashMap<>();
@@ -27,7 +25,7 @@ public class ListRecyclerViewsAdapater extends RecyclerView.Adapter<RecyclerView
     private final int mRecyclerviewType = 1, mLoadingviewType = 2, mBannerView = 3;
     private OnClickListener onMoreClickListener;
 
-    public ListRecyclerViewsAdapater(OnClickListener onMoreClickListener,  Context context) {
+    public AdapaterListRecyclerViews(OnClickListener onMoreClickListener, Context context) {
         this.Context = context;
         this.onMoreClickListener = onMoreClickListener;
     }
@@ -39,15 +37,15 @@ public class ListRecyclerViewsAdapater extends RecyclerView.Adapter<RecyclerView
         switch (viewType) {
             case mRecyclerviewType: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_recylerview, viewGroup, false);
-                return new RecyclerviewViewHolder(view, onMoreClickListener);
+                return new ViewHolderRecyclerview(view, onMoreClickListener);
             }
             case mLoadingviewType: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loading_progress, viewGroup, false);
-                return new LoadingViewHolder(view);
+                return new ViewHolderLoading(view);
             }
             case mBannerView: {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_bannerview, viewGroup, false);
-                return new BannerViewHolder(view);
+                return new ViewHolderBanner(view);
             }
 
         }
@@ -58,10 +56,10 @@ public class ListRecyclerViewsAdapater extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == mRecyclerviewType) {
             if (mAllListOfResturants.get(position) != null) {
-                ((RecyclerviewViewHolder) holder).setData(mAllListOfResturants.get(position), mWhichResturanList.get(position), mWhichCategoryList.get(position));
+                ((ViewHolderRecyclerview) holder).setData(mAllListOfResturants.get(position), mWhichResturanList.get(position), mWhichCategoryList.get(position));
             }
         } else if (getItemViewType(position) == mBannerView) {
-            ((BannerViewHolder) holder).mBannerView.setImageDrawable(Context.getDrawable(R.drawable.restaurant_banner));
+            ((ViewHolderBanner) holder).mBannerView.setImageDrawable(Context.getDrawable(R.drawable.restaurant_banner));
         }
 
     }

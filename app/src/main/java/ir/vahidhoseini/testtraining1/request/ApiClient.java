@@ -7,68 +7,35 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
-import ir.vahidhoseini.testtraining1.AppExecutors;
-import ir.vahidhoseini.testtraining1.model.zomato.Categories;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
-import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
-import ir.vahidhoseini.testtraining1.request.zomatoresponse.CategoryResponse;
 import ir.vahidhoseini.testtraining1.request.zomatoresponse.CollectionResponse;
 import ir.vahidhoseini.testtraining1.request.zomatoresponse.ResturantResponse;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static ir.vahidhoseini.testtraining1.utill.Constant.NETWORK_TIMEOUT;
-
-public class ZomatoApiClient {
+public class ApiClient {
     private static final String TAG = "ZomatoApiClient";
-    private static ZomatoApiClient instance;
-    private MutableLiveData<List<Categories>> mCategory;
+    private static ApiClient instance;
     private MutableLiveData<List<Collections>> mCollection;
     private MutableLiveData<List<Restaurants>> mResturants;
-    private RetrieveCategoryRunnable mRetrieveCategoryRunnable;
     private RetrieveCollectionRunnable mRetrieveCollectionRunnable;
     private RetrieveResturantsRunnable mRetrieveResturantsRunnable;
 
-    public static ZomatoApiClient getInstance() {
+    public static ApiClient getInstance() {
         if (instance == null) {
-            instance = new ZomatoApiClient();
+            instance = new ApiClient();
         }
         return instance;
     }
 
-    public ZomatoApiClient() {
-        mCategory = new MutableLiveData<>();
+    public ApiClient() {
         mCollection = new MutableLiveData<>();
         mResturants = new MutableLiveData<>();
-
-        List<MutableLiveData<List<Restaurants>>> listOfLiveData;
-
-
     }
 
-    public LiveData<List<Categories>> getCategory() {
-        return mCategory;
-    }
-
-    public void ReciveCategoryApi() {
-        if (mRetrieveCategoryRunnable != null) {
-            mRetrieveCategoryRunnable = null;
-        }
-        mRetrieveCategoryRunnable = new RetrieveCategoryRunnable();
-        final Future handler = AppExecutors.getInstance().networkIO().submit(mRetrieveCategoryRunnable);
-
-        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
-            @Override
-            public void run() {
-                //let user know its timed out
-                handler.cancel(true);
-            }
-        }, NETWORK_TIMEOUT, TimeUnit.MILLISECONDS);
-    }
 
     public LiveData<List<Collections>> getCollection() {
         return mCollection;
@@ -76,15 +43,16 @@ public class ZomatoApiClient {
 
     private Thread thread;
 
-    public void ReciveCollectionApi(int cityId, int count) {
+    public void ReciveCollectionApi(Map<String, Object> params) {
         if (mRetrieveCollectionRunnable != null) {
             mRetrieveCollectionRunnable = null;
         }
-        mRetrieveCollectionRunnable = new RetrieveCollectionRunnable(cityId, count);
+        mRetrieveCollectionRunnable = new RetrieveCollectionRunnable(params);
         if (thread != null) {
             thread = null;
         }
         thread = new Thread(mRetrieveCollectionRunnable);
+        thread.start();
     }
 
     public LiveData<List<Restaurants>> getResturants() {
@@ -104,56 +72,13 @@ public class ZomatoApiClient {
         thread.start();
     }
 
-
-    private class RetrieveCategoryRunnable implements Runnable {
-
-        boolean cancelRequest;
-
-        public RetrieveCategoryRunnable() {
-            this.cancelRequest = false;
-        }
-
-        @Override
-        public void run() {
-            try {
-                Response response = getCategoryResponse().execute();
-                if (cancelRequest) {
-                    return;
-                }
-                if (response.code() == 200) {
-                    List<Categories> list = ((CategoryResponse) response.body()).getCategories();
-                    mCategory.postValue(list);
-                } else {
-                    String error = response.errorBody().string();
-                    Log.e(TAG, "error :" + error);
-                    mCategory.postValue(null);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                mCategory.postValue(null);
-            }
-
-        }
-
-        private Call<CategoryResponse> getCategoryResponse() {
-            return ServiceGenerator.getApi().getCategory();
-        }
-
-        private void CancelRequest() {
-            Log.d(TAG, "CancelRequest: canceling the getCategory request");
-            cancelRequest = true;
-        }
-    }
-
     private class RetrieveCollectionRunnable implements Runnable {
 
         boolean cancelRequest;
-        int cityId;
-        int count;
+        Map<String, Object> params;
 
-        public RetrieveCollectionRunnable(int cityId, int count) {
-            this.cityId = cityId;
-            this.count = count;
+        public RetrieveCollectionRunnable(Map<String, Object> p) {
+            params = p;
             this.cancelRequest = false;
         }
 
@@ -166,6 +91,8 @@ public class ZomatoApiClient {
                 }
                 if (response.code() == 200) {
                     List<Collections> list = ((CollectionResponse) response.body()).getCollectionResponse();
+                    Log.e(TAG, "ZomatoApiClient error :" + list.toString());
+
                     mCollection.postValue(list);
                 } else {
                     String error = response.errorBody().string();
@@ -181,7 +108,7 @@ public class ZomatoApiClient {
         }
 
         private Call<CollectionResponse> getCollectionResponse() {
-            return ServiceGenerator.getApi().getCollection(cityId, count);
+            return ServiceGenerator.getApi().getCollection(params);
         }
 
         private void CancelRequest() {
@@ -227,7 +154,7 @@ public class ZomatoApiClient {
                 if (response.code() == 200) {
                     List<Restaurants> list = null;
                     list = ((ResturantResponse) response.body()).getResturantResponse();
-                    if(list.size()>1) {
+                    if (list.size() > 1) {
                         if (start == 1) {
                             mResturants.postValue(list);
                         } else {
@@ -235,7 +162,7 @@ public class ZomatoApiClient {
                             currentResturants.addAll(list);
                             mResturants.postValue(currentResturants);
                         }
-                    }else {
+                    } else {
                         mResturants.postValue(null);
                     }
                 } else {
@@ -263,9 +190,7 @@ public class ZomatoApiClient {
     }
 
     public void cancelRequest() {
-        if (mRetrieveCategoryRunnable != null) {
-            mRetrieveCategoryRunnable.CancelRequest();
-        } else if (mRetrieveResturantsRunnable != null) {
+        if (mRetrieveResturantsRunnable != null) {
             mRetrieveResturantsRunnable.CancelRequest();
         } else if (mRetrieveCollectionRunnable != null) {
             mRetrieveCollectionRunnable.CancelRequest();

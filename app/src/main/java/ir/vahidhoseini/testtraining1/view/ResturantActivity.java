@@ -14,7 +14,7 @@ import java.util.List;
 
 import ir.vahidhoseini.testtraining1.BaseActivity;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
-import ir.vahidhoseini.testtraining1.adapter.ResturantAdapter;
+import ir.vahidhoseini.testtraining1.adapter.AdapterResturant;
 import ir.vahidhoseini.testtraining1.databinding.ActivityResturantBinding;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.viewmodel.ResturantViewModel;
@@ -23,7 +23,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
 
     private ActivityResturantBinding mBinding;
     private ResturantViewModel mResturantViewModel;
-    private ResturantAdapter resturantAdapter;
+    private AdapterResturant resturantAdapter;
     private double lat = 40.742051;
     private double lon = -74.004821;
     private int resturantsPageNumber = 1;
@@ -62,7 +62,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initRecyclerView() {
-        resturantAdapter = new ResturantAdapter(this);
+        resturantAdapter = new AdapterResturant(this);
         mBinding.searcheRecyclerResturantView.setAdapter(resturantAdapter);
         mBinding.searcheRecyclerResturantView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.searcheRecyclerResturantView.addOnScrollListener(new RecyclerView.OnScrollListener() {

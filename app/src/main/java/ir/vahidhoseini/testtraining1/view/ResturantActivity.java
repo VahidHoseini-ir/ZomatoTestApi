@@ -42,7 +42,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
         mBinding.searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                resturantAdapter.displayLoading();
+                resturantAdapter.displayLoading(true); // with true value notify to loading that is new query to clear the list and show new loading
                 recyclerExhausted = false;
                 resturantsPageNumber = 1;
                 mResturantViewModel.reciveResturantApi(query, resturantsPageNumber, 10, lat, lon, null, null, null, null);
@@ -71,7 +71,7 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 if (!recyclerView.canScrollVertically(1)) {
                     if (!recyclerExhausted) {
-                        resturantAdapter.displayLoading();
+                        resturantAdapter.displayLoading(false);// with false value notify to loading that loading should be at the end of list.
                         resturantsPageNumber += 10;
                         mResturantViewModel.nextReciveResturantApi();
                     }
@@ -91,8 +91,15 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
                     resturantAdapter.setResturants(restaurants);
                 } else {
                     Log.d(TAG, "ResturantObserver is null");
-                    recyclerExhausted = true;
-                    resturantAdapter.setRecyclerExauhsted();
+                    if (resturantsPageNumber < 5) { // check that page number if page number less than page 2 that means no items find and resturant list has no item.
+                        recyclerExhausted = true;
+                        resturantAdapter.setRecyclerExauhsted(true);// if list has no items so notify to recycler exauhsted that the list has no item. that can change the message of ExhaustedView
+
+                    } else {
+                        recyclerExhausted = true;
+                        resturantAdapter.setRecyclerExauhsted(false);// if list has no items so notify to recycler exauhsted that the list has no item. that can change the message of ExhaustedView
+
+                    }
                 }
             }
         });

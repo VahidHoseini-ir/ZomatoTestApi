@@ -70,6 +70,8 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ResturantViewHolder) holder).locality.setText("Locality : " + resturants.get(position).getRestaurant().getLocation().getLocality());
             ((ResturantViewHolder) holder).address.setText("Address : " + resturants.get(position).getRestaurant().getLocation().getAddress());
             ((ResturantViewHolder) holder).phone_number.setText("Phone number : " + resturants.get(position).getRestaurant().getPhone_numbers());
+        } else if (itemViewType == ExhaustedView) {
+            ((LoadingViewHolder) holder).textview.setText(resturants.size() > 1 ? "No more items found" : "What are you looking for?, no items found.");
         }
 
 
@@ -98,12 +100,23 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return 0;
     }
 
-    public void displayLoading() {
-        if (!isLoading()) {
-            Restaurants restaurants = new Restaurants();
-            restaurants.setId(LoadingView);
-            resturants.add(restaurants);
-            notifyDataSetChanged();
+    public void displayLoading(boolean newQuery) {// if the user looking for new query i remove all list and then show progress again
+        if (newQuery) {
+            if (!isLoading()) {
+                List<Restaurants> list = new ArrayList<>();
+                Restaurants restaurants = new Restaurants();
+                restaurants.setId(LoadingView);
+                list.add(restaurants);
+                resturants = list;
+                notifyDataSetChanged();
+            }
+        } else {
+            if (!isLoading()) {
+                Restaurants restaurants = new Restaurants();
+                restaurants.setId(LoadingView);
+                resturants.add(restaurants);
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -129,12 +142,22 @@ public class ResturantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-    public void setRecyclerExauhsted() {
-        hideLoading();
-        Restaurants restaurants = new Restaurants();
-        restaurants.setId(ExhaustedView);
-        resturants.add(restaurants);
-        notifyDataSetChanged();
+    public void setRecyclerExauhsted(boolean noItems) {
+        if (noItems) {
+            hideLoading();
+            List<Restaurants> list = new ArrayList<>();
+            Restaurants restaurants = new Restaurants();
+            restaurants.setId(ExhaustedView);
+            list.add(restaurants);
+            resturants = list;
+            notifyDataSetChanged();
+        } else {
+            hideLoading();
+            Restaurants restaurants = new Restaurants();
+            restaurants.setId(ExhaustedView);
+            resturants.add(restaurants);
+            notifyDataSetChanged();
+        }
     }
 
     public void setResturants(List<Restaurants> Resturants) {

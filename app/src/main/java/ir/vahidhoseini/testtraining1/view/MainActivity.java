@@ -177,11 +177,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.app_bar_search: {
-                Toast.makeText(MainActivity.this, "app_bar_search :", Toast.LENGTH_SHORT).show();
                 TransitionManager.beginDelayedTransition((ViewGroup) this.findViewById(R.id.toolbar));
                 MenuItemCompat.expandActionView(item);
                 startActivity(new Intent(MainActivity.this, ResturantActivity.class));
-
                 return true;
             }
             case R.id.zomato_location: {

@@ -15,6 +15,7 @@ import ir.vahidhoseini.testtraining1.request.zomatoresponse.CollectionResponse;
 import ir.vahidhoseini.testtraining1.request.zomatoresponse.ResturantResponse;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.QueryMap;
 
 public class ApiClient {
     private static final String TAG = "ZomatoApiClient";
@@ -60,11 +61,11 @@ public class ApiClient {
     }
 
 
-    public void ReciveResturantsApi(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
+    public void ReciveResturantsApi(Map<String, Object> params, int page) {
         if (mRetrieveResturantsRunnable != null) {
             mRetrieveResturantsRunnable = null;
         }
-        mRetrieveResturantsRunnable = new RetrieveResturantsRunnable(query, start, count, lat, lon, cuisines, category, sort, order);
+        mRetrieveResturantsRunnable = new RetrieveResturantsRunnable(params, page);
         if (thread != null) {
             thread = null;
         }
@@ -120,27 +121,14 @@ public class ApiClient {
     private class RetrieveResturantsRunnable implements Runnable {
 
         boolean cancelRequest;
-        String query;
-        int start;
-        int count;
-        double lat;
-        double lon;
-        String cuisines;
-        String category;
-        String sort;
-        String order;
+        int page;
+        Map<String, Object> params;
 
-        public RetrieveResturantsRunnable(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
+        public RetrieveResturantsRunnable(Map<String, Object> p, int page) {
             this.cancelRequest = false;
-            this.query = query;
-            this.start = start;
-            this.count = count;
-            this.lat = lat;
-            this.lon = lon;
-            this.cuisines = cuisines;
-            this.category = category;
-            this.sort = sort;
-            this.order = order;
+            this.page = page;
+            params = p;
+            params.put("start", String.valueOf(page));
         }
 
 
@@ -155,7 +143,7 @@ public class ApiClient {
                     List<Restaurants> list = null;
                     list = ((ResturantResponse) response.body()).getResturantResponse();
                     if (list.size() > 1) {
-                        if (start == 1) {
+                        if (page == 1) {
                             mResturants.postValue(list);
                         } else {
                             List<Restaurants> currentResturants = mResturants.getValue();
@@ -179,7 +167,7 @@ public class ApiClient {
         }
 
         private Call<ResturantResponse> getResturantResponse() {
-            return ServiceGenerator.getApi().getResturant(query, start, count, lat, lon, cuisines, "", sort, order);
+            return ServiceGenerator.getApi().getResturant(params);
         }
 
 

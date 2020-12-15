@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ir.vahidhoseini.testtraining1.BaseActivity;
 import ir.vahidhoseini.testtraining1.R;
@@ -32,6 +33,7 @@ import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
 import ir.vahidhoseini.testtraining1.model.zomato.Category;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.utill.MyApplication;
+import ir.vahidhoseini.testtraining1.utill.Param;
 import ir.vahidhoseini.testtraining1.viewmodel.CategoriesViewModel;
 
 import static ir.vahidhoseini.testtraining1.utill.Constant.COUNT_OF_RESTURANT_LIST_MAIN;
@@ -87,7 +89,10 @@ public class CategoriesListActivity extends BaseActivity implements OnClickListe
                 mCategories.add(category);
             }
             mLastListOfCategory = 0;
-            mViewModel.reciveMainResturantsApi(mCategories.get(0).getName(), 1, COUNT_OF_RESTURANT_LIST_MAIN, lat, lon, "", mCategories.get(0).getId(), "", "");
+            Map<String, Object> p = Param.getInstanc().MapResturant();
+            p.put("q", mCategories.get(0).getName());
+            p.put("category", mCategories.get(0).getId());
+            mViewModel.reciveMainResturantsApi(p);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,13 +116,19 @@ public class CategoriesListActivity extends BaseActivity implements OnClickListe
 
                     if (mCategories.size() > mLastListOfCategory + 1) {
                         mLastListOfCategory += 1;
-                        mViewModel.reciveMainResturantsApi(mCategories.get(mLastListOfCategory).getName(), 1, COUNT_OF_RESTURANT_LIST_MAIN, lat, lon, "", mCategories.get(mLastListOfCategory).getId(), "", "");
+                        Map<String, Object> p = Param.getInstanc().MapResturant();
+                        p.put("q", mCategories.get(mLastListOfCategory).getName());
+                        p.put("category", mCategories.get(mLastListOfCategory).getId());
+                        mViewModel.reciveMainResturantsApi(p);
                     }
 
                 } else {
                     if (mCategories.size() > mLastListOfCategory + 1) {
                         mLastListOfCategory += 1;
-                        mViewModel.reciveMainResturantsApi(mCategories.get(mLastListOfCategory).getName(), 1, COUNT_OF_RESTURANT_LIST_MAIN, lat, lon, "", mCategories.get(mLastListOfCategory).getId(), "", "");
+                        Map<String, Object> p = Param.getInstanc().MapResturant();
+                        p.put("q", mCategories.get(mLastListOfCategory).getName());
+                        p.put("category", mCategories.get(mLastListOfCategory).getId());
+                        mViewModel.reciveMainResturantsApi(p);
                     }
                 }
 

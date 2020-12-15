@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import ir.vahidhoseini.testtraining1.adapter.AdapterResturant;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
 import ir.vahidhoseini.testtraining1.databinding.ActivityMainBinding;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
+import ir.vahidhoseini.testtraining1.utill.Param;
 import ir.vahidhoseini.testtraining1.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
@@ -31,8 +33,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     //variables
     private MainViewModel mViewModel;
     private AdapterMain mAdapter;
-    private double lat = 40.742051;
-    private double lon = -74.004821;
 
 
     @Override
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 
     private void curatedCollections() {
+        mAdapter.displayLoading(false);
         reciveCuratedCollections();
         mViewModel.getCollections().observe(this, new Observer<List<Collections>>() {
             @Override
@@ -58,18 +59,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 mAdapter.setCuratedCollections(collections, onCollectionListener());
             }
         });
-
     }
 
+
     private void reciveCuratedCollections() {
-        Map<String, Object> params = new HashMap<>();
-        //        params.put("city_id", 1);
-        params.put("lat", lat);
-        params.put("lon", lon);
-        params.put("count", 10);
-
-        mViewModel.reciveColletionApi(params);
-
+        mViewModel.reciveColletionApi(Param.getInstanc().MapCuratedCollections());
     }
 
     private void initRecyclerView() {
@@ -88,17 +82,31 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         });
     }
 
+
     public OnClickListener onCollectionListener() {
         return new OnClickListener() {
             @Override
             public void onClickListener(int collectionId) {
                 Toast.makeText(MainActivity.this, "" + collectionId, Toast.LENGTH_SHORT).show();
+
             }
         };
     }
 
-    @Override
-    public void onClickListener(int position) { // its for item list listener
 
+    /**
+     * in this @onClickListener
+     * for clicking see all in curated collections
+     * in its view holder we told that it returns -1 that can be identifiable
+     */
+    private final int seeAll = -1;
+
+    @Override
+    public void onClickListener(int id) { // its for item list listener
+        if (id == seeAll) {
+            Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, CollectionActivity.class));
+
+        }
     }
 }

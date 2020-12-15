@@ -7,4 +7,7 @@ public class Constant {
     public static final int NETWORK_TIMEOUT = 6;
     public static final String API_KEY = "fc44acfa5a5f36d37869fe177107285c";
     public static final int COUNT_OF_RESTURANT_LIST_MAIN = 8;
+    public static final int COUNT_OF_Currated_Collection_In_MainActivity = 10;
+
+
 }

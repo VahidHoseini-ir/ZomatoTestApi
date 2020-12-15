@@ -19,22 +19,23 @@ public interface Api {
 
     @Headers({"Accept: application/json", "user-key: fc44acfa5a5f36d37869fe177107285c",})
     @GET("api/v2.1/search")
-    Call<ResturantResponse> getResturant(@Query("q") String query,
-                                         @Query("start") int start,
-                                         @Query("count") int count,
-                                         @Query("lat") double lat,
-                                         @Query("lon") double lon,
-                                         @Query("cuisines") String cuisines,
-                                         @Query("category") String category,
-                                         @Query("sort") String sort,
-                                         @Query("order") String order);
+    Call<ResturantResponse> getResturant(@QueryMap Map<String, Object> params);
+
+    //    @Headers({"Accept: application/json", "user-key: fc44acfa5a5f36d37869fe177107285c",})
+    //    @GET("api/v2.1/search")
+    //    Call<ResturantResponse> getResturant(@Query("q") String query,
+    //                                         @Query("start") int start,
+    //                                         @Query("count") int count,
+    //                                         @Query("lat") double lat,
+    //                                         @Query("lon") double lon,
+    //                                         @Query("cuisines") String cuisines,
+    //                                         @Query("category") String category,
+    //                                         @Query("sort") String sort,
+    //                                         @Query("order") String order);
 
     @Headers({"Accept: application/json", "user-key: fc44acfa5a5f36d37869fe177107285c",})
     @GET("api/v2.1/search")
     Call<ResturantResponse> getTestResturant(@QueryMap Map<String, Object> params);
-
-
-
 
 
 }

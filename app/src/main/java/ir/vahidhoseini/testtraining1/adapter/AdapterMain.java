@@ -1,5 +1,6 @@
 package ir.vahidhoseini.testtraining1.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import ir.vahidhoseini.testtraining1.R;
+import ir.vahidhoseini.testtraining1.model.zomato.Collection;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
@@ -33,8 +36,19 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_recylerview, parent, false);
-        return new ViewHolderRecyclerview(view, onListItemListener);
+        View view = null;
+        Log.e("TAG", "onCreateViewHolder: viewType =" + viewType);
+
+        switch (viewType) {
+            case LoadingView: {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_progress, parent, false);
+                return new ViewHolderLoading(view);
+            }
+            default: {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_recylerview, parent, false);
+                return new ViewHolderRecyclerview(view, onListItemListener);
+            }
+        }
     }
 
     @Override
@@ -42,15 +56,19 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         switch (getItemViewType(position)) {
             case CollectionView: {
-                ((ViewHolderRecyclerview) holder).setCollection(collections , onCollectionListener);
+                ((ViewHolderRecyclerview) holder).setCollection(collections, onCollectionListener);
             }
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return CollectionView;
-
+        if (mainData.size()-1 == position && mainData.get(mainData.size()-1) == LoadingView) {
+            return LoadingView;
+        } else if (mainData.get(position) == CollectionView) {
+            return CollectionView;
+        }
+        return 0;
     }
 
     @Override
@@ -58,13 +76,58 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mainData.size();
     }
 
-    public void setCuratedCollections(List<Collections> c , OnClickListener o) {
-        onCollectionListener = o;
-        if (mainData.get(1) != null) {
-            mainData.remove(1);
+    public int mainDataSize() {
+        return Math.max(mainData.size(), 0);
+    }
+
+    public void displayLoading(boolean newQuery) {
+        if (newQuery) {
+            removeData();
+            mainData.put(mainDataSize(), LoadingView);
+            notifyDataSetChanged();
+        } else {
+            if (!isLoading()) {
+                Log.e("TAG", "displayLoading: mainDataSize = " + mainDataSize());
+                mainData.put(mainDataSize(), LoadingView);
+                notifyDataSetChanged();
+            }
         }
-        mainData.put(1, CollectionView);
+    }
+
+
+    private boolean isLoading() {
+        if (mainData != null) {
+            if (mainData.size() > 0) {
+                if (mainData.get(mainData.size() - 1) == LoadingView) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void removeData() {
+        for (int i = 0; i < mainData.size(); i++) {
+            mainData.remove(i);
+        }
+        notifyDataSetChanged();
+    }
+
+    private void removeLoading() {
+        for (int i = 0; i < mainData.size(); i++) {
+            if (mainData.get(i) == LoadingView) {
+                mainData.remove(i);
+            }
+        }
+    }
+
+    public void setCuratedCollections(List<Collections> c, OnClickListener o) {
+        onCollectionListener = o;
+        removeLoading();
+        mainData.put(mainDataSize(), CollectionView);
         collections = c;
         notifyDataSetChanged();
     }
+
+
 }

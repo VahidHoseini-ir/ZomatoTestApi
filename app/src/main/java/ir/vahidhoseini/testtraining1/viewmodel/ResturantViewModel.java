@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
+import java.util.Map;
 
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.repository.Repository;
@@ -19,10 +20,10 @@ public class ResturantViewModel extends ViewModel {
     }
 
 
-    public void reciveResturantApi(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
+    public void reciveResturantApi(Map<String , Object> p) {
         if (!mPerformingQuery) {
             mPerformingQuery = true;
-            mZomatoRepository.reciveResturantApi(query, start, count, lat, lon, cuisines, category, sort, order);
+            mZomatoRepository.reciveResturantApi(p);
         }
     }
 

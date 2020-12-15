@@ -42,8 +42,8 @@ public class MainApiClient {
 
     private Thread thread;
 
-    public void ReciveResturantsApi(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
-        mWhichMutableLiveData = Integer.parseInt(category);
+    public void ReciveResturantsApi(Map<String, Object> params , int page) {
+        mWhichMutableLiveData = Integer.parseInt((String) params.get("category"));
         if (mListResturantsAndIds.get(mWhichMutableLiveData) == null) {
             Log.e(TAG, "onChanged: list in map is null : ");
 
@@ -54,7 +54,7 @@ public class MainApiClient {
         if (mRetrieveResturantsRunnable != null) {
             mRetrieveResturantsRunnable = null;
         }
-        mRetrieveResturantsRunnable = new RetrieveResturantsRunnable(query, start, count, lat, lon, cuisines, category, sort, order);
+        mRetrieveResturantsRunnable = new RetrieveResturantsRunnable(params , page);
 
         if (thread != null) {
             thread = null;
@@ -74,22 +74,16 @@ public class MainApiClient {
 
     private class RetrieveResturantsRunnable implements Runnable {
 
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params;
         boolean cancelRequest;
-        int start;
+        int page;
 
 
-        public RetrieveResturantsRunnable(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
+        public RetrieveResturantsRunnable( Map<String, Object> p , int page) {
             this.cancelRequest = false;
-            params.put("q", query);
-            params.put("start", start);
-            params.put("count", count);
-            params.put("lat", lat);
-            params.put("lon", lon);
-            //            params.put("cuisines", cuisines);
-            params.put("category", category);
-            this.start = start;
-            Log.e(TAG, "onChanged: category : " + category);
+            this.page = page;
+            params = p;
+            params.put("start", String.valueOf(page));
 
         }
 
@@ -105,7 +99,7 @@ public class MainApiClient {
                     List<Restaurants> list = ((ResturantResponse) response.body()).getResult_found();
                     Log.e(TAG, "onChanged: in zomato : " + list.toString());
 
-                    if (start == 1) {
+                    if (page == 1) {
                         mListResturantsAndIds.put(mWhichMutableLiveData, list);
                         mListLiveResturants.postValue(list);
 

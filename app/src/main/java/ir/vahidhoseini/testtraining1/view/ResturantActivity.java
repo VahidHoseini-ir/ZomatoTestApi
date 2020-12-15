@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Map;
 
 import ir.vahidhoseini.testtraining1.BaseActivity;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
 import ir.vahidhoseini.testtraining1.adapter.AdapterResturant;
 import ir.vahidhoseini.testtraining1.databinding.ActivityResturantBinding;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
+import ir.vahidhoseini.testtraining1.utill.Param;
 import ir.vahidhoseini.testtraining1.viewmodel.ResturantViewModel;
 
 public class ResturantActivity extends BaseActivity implements OnClickListener {
@@ -27,6 +29,8 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
     private double lat = 40.742051;
     private double lon = -74.004821;
     private int resturantsPageNumber = 1;
+    Map<String, Object> params = Param.getInstanc().MapResturant();
+
 
 
     @Override
@@ -45,7 +49,8 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
                 resturantAdapter.displayLoading(true); // with true value notify to loading that is new query to clear the list and show new loading
                 recyclerExhausted = false;
                 resturantsPageNumber = 1;
-                mResturantViewModel.reciveResturantApi(query, resturantsPageNumber, 10, lat, lon, null, null, null, null);
+                params.put("q", query);
+                mResturantViewModel.reciveResturantApi(params);
                 mBinding.searchview.clearFocus();
                 return false;
             }

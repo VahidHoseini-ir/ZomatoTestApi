@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import java.io.ObjectStreamException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,16 +17,17 @@ public class Repository {
     private ApiClient ApiClient;
     private MainApiClient mApiClient;
     private static Repository instance;
-    private String query;
-    private int start;
-    private int count;
-    private double lat;
-    private double lon;
-    private String cuisines;
-    private String category;
-    private String sort;
-    private String order;
+    private Map<String, Object> params;
 
+    //    private String query;
+    //    private int start;
+    //    private int count;
+    //    private double lat;
+    //    private double lon;
+    //    private String cuisines;
+    //    private String category;
+    //    private String sort;
+    //    private String order;
 
     public static Repository getInstance() {
         if (instance == null) {
@@ -51,44 +53,23 @@ public class Repository {
         return mApiClient.getMainListResturants();
     }
 
-    public void reciveResturantApi(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
-        this.query = query != null ? query : this.query != null ? this.query : "";
-        this.start = start;
-        this.count = count;
-        this.lat = lat;
-        this.lon = lon;
-        this.cuisines = cuisines;
-        this.category = category;
-        this.sort = sort;
-        this.order = order;
-        ApiClient.ReciveResturantsApi(query, start, count, lat, lon, cuisines, category, sort, order);
+    public void reciveResturantApi(Map<String, Object> p) {
+        params = p;
+        ApiClient.ReciveResturantsApi(params, 1);
     }
 
     public void nextReciveResturantApi() {
-        start = (start == 1 ? 0 : start) + 10;
-        Log.e("TAG", "ZomatoApiClient in next recive start is :" + start);
-        ApiClient.ReciveResturantsApi(query, start, count, lat, lon, cuisines, category, sort, order);
+        int page = (Integer.parseInt((String) params.get("start")) == 1 ? 0 : Integer.parseInt((String) params.get("start"))) + 10;// if start== 1 it returns 0 else returns start+10
+        ApiClient.ReciveResturantsApi(params, page);
     }
 
     public void reciveColletionApi(Map<String, Object> params) {
         ApiClient.ReciveCollectionApi(params);
     }
 
-    public void reciveMainResturantsApi(String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
-        this.query = query;
-        this.start = start;
-        this.count = count;
-        this.lat = lat;
-        this.lon = lon;
-        this.cuisines = cuisines;
-        this.category = category;
-        this.sort = sort;
-        this.order = order;
-        mApiClient.ReciveResturantsApi(query, start, count, lat, lon, cuisines, category, sort, order);
-    }
-
-    public void nextReciveMainResturantApi(String query, int start, int count, String category) {
-        mApiClient.ReciveResturantsApi(query, start, count, lat, lon, cuisines, category, sort, order);
+    public void reciveMainResturantsApi(Map<String, Object> p) {
+        params = p;
+        mApiClient.ReciveResturantsApi(params, 1);
     }
 
     public void cancelRequest() {

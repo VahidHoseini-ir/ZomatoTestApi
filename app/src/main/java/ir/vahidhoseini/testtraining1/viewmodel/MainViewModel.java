@@ -22,8 +22,8 @@ public class MainViewModel extends AndroidViewModel {
 
     }
 
-    public void reciveMainResturantsApi( String query, int start, int count, double lat, double lon, String cuisines, String category, String sort, String order) {
-        mZomatoRepository.reciveMainResturantsApi( query, start, count, lat, lon, cuisines, category, sort, order);
+    public void reciveMainResturantsApi(Map<String, Object> p) {
+        mZomatoRepository.reciveMainResturantsApi(p);
     }
 
     public LiveData<List<Restaurants>> getMainListResturants() {
@@ -35,7 +35,7 @@ public class MainViewModel extends AndroidViewModel {
         return mZomatoRepository.getCollections();
     }
 
-    public void reciveColletionApi(Map<String , Object> params) {
+    public void reciveColletionApi(Map<String, Object> params) {
         mZomatoRepository.reciveColletionApi(params);
     }
 

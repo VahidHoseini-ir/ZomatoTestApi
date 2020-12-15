@@ -20,14 +20,14 @@ public class ViewHolderRecyclerview extends RecyclerView.ViewHolder implements V
     TextView category_name;
     TextView more;
     RecyclerView main_resturant_list;
-    OnClickListener onResturantListener;
+    OnClickListener onSeeAllListener;
     int startPoint = 0;
     int categoryId = 0;
 
 
-    public ViewHolderRecyclerview(@NonNull View itemView, OnClickListener onResturantListener) {
+    public ViewHolderRecyclerview(@NonNull View itemView, OnClickListener ocl) {
         super(itemView);
-        this.onResturantListener = onResturantListener;
+        this.onSeeAllListener = ocl;
         category_name = itemView.findViewById(R.id.category_name);
         more = itemView.findViewById(R.id.more);
         main_resturant_list = itemView.findViewById(R.id.main_resturant_list);
@@ -51,7 +51,7 @@ public class ViewHolderRecyclerview extends RecyclerView.ViewHolder implements V
 
     @Override
     public void onClick(View view) {
-        onResturantListener.onClickListener(getAdapterPosition());
+        onSeeAllListener.onClickListener(-1);
     }
 
     public void setCollection(List<Collections> collections, OnClickListener onCollectionListener) {

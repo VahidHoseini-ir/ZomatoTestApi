@@ -15,15 +15,28 @@ import ir.vahidhoseini.testtraining1.repository.Repository;
 
 public class MainViewModel extends AndroidViewModel {
     private Repository mZomatoRepository;
+    private boolean isPerformingQuery;
+
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         mZomatoRepository = Repository.getInstance();
+        isPerformingQuery = false;
 
     }
 
-    public void reciveMainResturantsApi(Map<String, Object> p) {
-        mZomatoRepository.reciveMainResturantsApi(p);
+    public void reciveResturantApi(Map<String, Object> p) {
+        if (!isPerformingQuery) {
+            isPerformingQuery = true;
+            mZomatoRepository.reciveResturantApi(p);
+        }
+    }
+
+    public void nextReciveResturantApi() {
+        if (!isPerformingQuery) {
+            isPerformingQuery = true;
+            mZomatoRepository.nextReciveResturantApi();
+        }
     }
 
     public LiveData<List<Restaurants>> getMainListResturants() {
@@ -39,5 +52,11 @@ public class MainViewModel extends AndroidViewModel {
         mZomatoRepository.reciveColletionApi(params);
     }
 
+    public void queryFinished() {
+        isPerformingQuery = false;
+    }
+    public boolean isPerformingQuery(){
+        return isPerformingQuery;
+    }
 
 }

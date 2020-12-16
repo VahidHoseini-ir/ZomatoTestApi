@@ -56,20 +56,7 @@ public class AdapterResturant extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         int itemViewType = getItemViewType(position);
         if (itemViewType == ResturantView) {
-            if (!resturants.get(position).getRestaurant().getFeatured_image().isEmpty()) {
-                Log.w("tokhmi", "getFeatured_image: " + resturants.get(position).getRestaurant().getFeatured_image());
-                Picasso.get().load(resturants.get(position).getRestaurant().getFeatured_image()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(((ViewHolderResturant) holder).featured_image);
-            } else {
-                Picasso.get().load(R.drawable.returant_placeholder).into(((ViewHolderResturant) holder).featured_image);
-            }
-            ((ViewHolderResturant) holder).timing.setText(resturants.get(position).getRestaurant().getTimings());
-            ((ViewHolderResturant) holder).cuisines.setText(resturants.get(position).getRestaurant().getCuisines());
-            ((ViewHolderResturant) holder).name.setText(resturants.get(position).getRestaurant().getName());
-            ((ViewHolderResturant) holder).average_cost.setText("Average cost for two : " + resturants.get(position).getRestaurant().getAverage_cost_for_two() + " " + resturants.get(position).getRestaurant().getCurrency());
-            ((ViewHolderResturant) holder).city.setText("City : " + resturants.get(position).getRestaurant().getLocation().getCity());
-            ((ViewHolderResturant) holder).locality.setText("Locality : " + resturants.get(position).getRestaurant().getLocation().getLocality());
-            ((ViewHolderResturant) holder).address.setText("Address : " + resturants.get(position).getRestaurant().getLocation().getAddress());
-            ((ViewHolderResturant) holder).phone_number.setText("Phone number : " + resturants.get(position).getRestaurant().getPhone_numbers());
+
         } else if (itemViewType == ExhaustedView) {
             ((ViewHolderLoading) holder).textview.setText(resturants.size() > 1 ? "No more items found" : "What are you looking for?, no items found.");
         }

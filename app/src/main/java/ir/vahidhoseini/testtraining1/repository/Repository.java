@@ -1,13 +1,8 @@
 package ir.vahidhoseini.testtraining1.repository;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
-
-import java.io.ObjectStreamException;
 import java.util.List;
 import java.util.Map;
-
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.request.ApiClient;
@@ -18,16 +13,6 @@ public class Repository {
     private MainApiClient mApiClient;
     private static Repository instance;
     private Map<String, Object> params;
-
-    //    private String query;
-    //    private int start;
-    //    private int count;
-    //    private double lat;
-    //    private double lon;
-    //    private String cuisines;
-    //    private String category;
-    //    private String sort;
-    //    private String order;
 
     public static Repository getInstance() {
         if (instance == null) {

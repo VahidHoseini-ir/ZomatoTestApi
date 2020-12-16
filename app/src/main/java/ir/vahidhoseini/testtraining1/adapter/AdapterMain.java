@@ -8,25 +8,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ir.vahidhoseini.testtraining1.R;
-import ir.vahidhoseini.testtraining1.model.zomato.Collection;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
+import ir.vahidhoseini.testtraining1.model.zomato.Main;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
 public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private String TAG = "AdapterMain";
     private OnClickListener onCollectionListener;
     private OnClickListener onListItemListener;
-    Map<Integer, Integer> mainData = new HashMap<>();
-    List<Collections> collections;
-    List<Restaurants> restaurants;
+    private List<Main> mainData = new ArrayList<>();
+    private int HowManyItemsIsInListBeforResturanList;// position of resturant list is not the main data list size becuase we have add currated collection;
     private final int LoadingView = 1, CollectionView = 2, ResturantView = 3;
 
     public AdapterMain(OnClickListener mainListListener) {
@@ -37,36 +33,47 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
-        Log.e("TAG", "onCreateViewHolder: viewType =" + viewType);
+        Log.e(TAG, TAG + " : onCreateViewHolder: viewType =" + viewType);
 
         switch (viewType) {
             case LoadingView: {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_progress, parent, false);
                 return new ViewHolderLoading(view);
             }
-            default: {
+            case ResturantView: {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_resturant, parent, false);
+                return new ViewHolderResturant(view, onListItemListener, 0);
+            }
+            case CollectionView: {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_recylerview, parent, false);
                 return new ViewHolderRecyclerview(view, onListItemListener);
             }
         }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.e(TAG, TAG + " : onBindViewHolder: position =" + position);
+        int view_type = getItemViewType(position);
+        if (view_type == CollectionView) {
+            ((ViewHolderRecyclerview) holder).setCollection(((List<Collections>) mainData.get(position).getObject()), onCollectionListener);
+        } else if (view_type == ResturantView) {
+            ((ViewHolderResturant) holder).setResturant(((Restaurants) mainData.get(position).getObject()));
 
-        switch (getItemViewType(position)) {
-            case CollectionView: {
-                ((ViewHolderRecyclerview) holder).setCollection(collections, onCollectionListener);
-            }
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mainData.size()-1 == position && mainData.get(mainData.size()-1) == LoadingView) {
+        Log.e(TAG, TAG + " : getItemViewType: position =" + position);
+
+        if (position == mainData.size() - 1 && mainData.get(position).getViewholder() == LoadingView) {
             return LoadingView;
-        } else if (mainData.get(position) == CollectionView) {
+        } else if (mainData.get(position).getViewholder() == CollectionView && mainData.get(position).getObject() instanceof ArrayList) {
             return CollectionView;
+        } else if (mainData.get(position).getViewholder() == ResturantView && mainData.get(position).getObject() instanceof Restaurants) {
+            return ResturantView;
         }
         return 0;
     }
@@ -76,19 +83,15 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mainData.size();
     }
 
-    public int mainDataSize() {
-        return Math.max(mainData.size(), 0);
-    }
-
     public void displayLoading(boolean newQuery) {
         if (newQuery) {
-            removeData();
-            mainData.put(mainDataSize(), LoadingView);
-            notifyDataSetChanged();
+
         } else {
             if (!isLoading()) {
-                Log.e("TAG", "displayLoading: mainDataSize = " + mainDataSize());
-                mainData.put(mainDataSize(), LoadingView);
+                Main main = new Main();
+                main.setViewholder(LoadingView);
+                main.setObject(null);
+                mainData.add(main);
                 notifyDataSetChanged();
             }
         }
@@ -98,7 +101,7 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private boolean isLoading() {
         if (mainData != null) {
             if (mainData.size() > 0) {
-                if (mainData.get(mainData.size() - 1) == LoadingView) {
+                if (mainData.get(mainData.size() - 1).getViewholder() == LoadingView) {
                     return true;
                 }
             }
@@ -106,16 +109,16 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return false;
     }
 
-    private void removeData() {
-        for (int i = 0; i < mainData.size(); i++) {
-            mainData.remove(i);
-        }
-        notifyDataSetChanged();
-    }
+    //    private void removeData() {
+    //        for (int i = 0; i < mainData.size(); i++) {
+    //            mainData.remove(i);
+    //        }
+    //        notifyDataSetChanged();
+    //    }
 
     private void removeLoading() {
         for (int i = 0; i < mainData.size(); i++) {
-            if (mainData.get(i) == LoadingView) {
+            if (mainData.get(i).getViewholder() == LoadingView && mainData.get(i).getObject() == null) {
                 mainData.remove(i);
             }
         }
@@ -124,10 +127,43 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setCuratedCollections(List<Collections> c, OnClickListener o) {
         onCollectionListener = o;
         removeLoading();
-        mainData.put(mainDataSize(), CollectionView);
-        collections = c;
-        notifyDataSetChanged();
+        if (mainData.size() < 1) {
+            Main main = new Main();
+            main.setObject(c);
+            main.setViewholder(CollectionView);
+            mainData.add(main);
+            notifyDataSetChanged();
+        }
     }
 
 
+    public void setMainResturant(List<Restaurants> r) {
+        removeLoading();
+//        if (mainData.size() > 1) {
+//            Log.e(TAG, TAG + " : setMainResturant: Restaurants =" + ((Restaurants) mainData.get(2).getObject()).getRestaurant().getName() + "\n r :" + r.get(1).getRestaurant().getName());
+//            if (!(((Restaurants) mainData.get(2).getObject()).getRestaurant().getName().equals(r.get(1).getRestaurant().getName()))) {
+                setListOfResturantsInMainData(r);
+                notifyDataSetChanged();
+//            } else {
+//                return;
+//            }
+//        } else {
+//            setListOfResturantsInMainData(r);
+//            notifyDataSetChanged();
+//        }
+    }
+
+    private void setListOfResturantsInMainData(List<Restaurants> r) {
+        HowManyItemsIsInListBeforResturanList = mainData.size();
+        for (int i = 0; i < r.size(); i++) {
+            Main main = new Main();
+            main.setViewholder(ResturantView);
+            main.setObject(r.get(i));
+            mainData.add(main);
+        }
+    }
+
+    private int getResturantPosition(int mainDataPosition) {
+        return mainDataPosition - HowManyItemsIsInListBeforResturanList;
+    }
 }

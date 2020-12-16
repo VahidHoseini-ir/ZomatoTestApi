@@ -2,27 +2,26 @@ package ir.vahidhoseini.testtraining1.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.adapter.AdapterMain;
-import ir.vahidhoseini.testtraining1.adapter.AdapterResturant;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
 import ir.vahidhoseini.testtraining1.databinding.ActivityMainBinding;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
+import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.utill.Param;
 import ir.vahidhoseini.testtraining1.viewmodel.MainViewModel;
 
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -56,15 +56,34 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         mViewModel.getCollections().observe(this, new Observer<List<Collections>>() {
             @Override
             public void onChanged(List<Collections> collections) {
+                mViewModel.queryFinished();
                 mAdapter.setCuratedCollections(collections, onCollectionListener());
+                setMainResturants();
+                mViewModel.reciveResturantApi(Param.getInstanc().MapResturant());
             }
         });
     }
 
-
     private void reciveCuratedCollections() {
         mViewModel.reciveColletionApi(Param.getInstanc().MapCuratedCollections());
     }
+
+    private void setMainResturants() {
+        mAdapter.displayLoading(false);
+        mViewModel.getMainListResturants().observe(this, new Observer<List<Restaurants>>() {
+            @Override
+            public void onChanged(List<Restaurants> restaurants) {
+                mViewModel.queryFinished();
+                if (restaurants != null) {
+                    Log.e("TAG", "onChanged: restaurants = " + restaurants.toString());
+                    mAdapter.setMainResturant(restaurants);
+
+                }
+            }
+        });
+
+    }
+
 
     private void initRecyclerView() {
         mAdapter = new AdapterMain(this);
@@ -75,8 +94,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 if (!recyclerView.canScrollVertically(1)) {
+                    if (!mViewModel.isPerformingQuery()) {
+                        mAdapter.displayLoading(false);
+                        mViewModel.nextReciveResturantApi();
 
-
+                    }
                 }
             }
         });

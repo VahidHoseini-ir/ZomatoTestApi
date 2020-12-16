@@ -113,7 +113,6 @@ public class ApiClient {
         }
 
         private void CancelRequest() {
-            //            Log.d(TAG, "CancelRequest: canceling the getCollectionResponse request");
             cancelRequest = true;
         }
     }

@@ -5,6 +5,7 @@ public class MyCurrentLocation {
     private Double lat;
     private Double lon;
     private String city;
+    private String city_id;
     private String address;
 
     public static MyCurrentLocation getInstance() {
@@ -16,7 +17,7 @@ public class MyCurrentLocation {
 
     public double getLat() {
         if (lat == null) {
-            lat = 40.742052;
+            lat = 40.742052;  // lat of new yourk city
         }
         return lat;
     }
@@ -27,7 +28,7 @@ public class MyCurrentLocation {
 
     public double getLon() {
         if (lon == null) {
-            lon = -74.004822;
+            lon = -74.004822;  // lon of new yourk city
         }
         return lon;
     }
@@ -36,8 +37,19 @@ public class MyCurrentLocation {
         this.lon = lon;
     }
 
+    public String getCity_id() {
+        if (city_id == null || city_id.isEmpty()) {
+            city_id = "280"; // city id of new yourk city
+        }
+        return city_id;
+    }
+
+    public void setCity_id(String city_id) {
+        this.city_id = city_id;
+    }
+
     public String getCity() {
-        if (city == null) {
+        if (city == null || city.isEmpty()) {
             city = "NewYork";
         }
         return city;

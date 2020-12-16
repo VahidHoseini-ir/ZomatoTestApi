@@ -8,7 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import ir.vahidhoseini.testtraining1.R;
+import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 
 public class ViewHolderResturant extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -24,7 +27,7 @@ public class ViewHolderResturant extends RecyclerView.ViewHolder implements View
     OnClickListener onClickListener;
     int categoryId;
 
-    public ViewHolderResturant(@NonNull View itemView, OnClickListener onClickListener , int categoryId) {
+    public ViewHolderResturant(@NonNull View itemView, OnClickListener onClickListener, int categoryId) {
         super(itemView);
         this.onClickListener = onClickListener;
         this.categoryId = categoryId;
@@ -38,6 +41,23 @@ public class ViewHolderResturant extends RecyclerView.ViewHolder implements View
         address = itemView.findViewById(R.id.address);
         phone_number = itemView.findViewById(R.id.phone_number);
         itemView.setOnClickListener(this);
+    }
+
+    public void setResturant(Restaurants resturant) {
+        if (!resturant.getRestaurant().getFeatured_image().isEmpty()) {
+            Picasso.get().load(resturant.getRestaurant().getFeatured_image()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(featured_image);
+        } else {
+            Picasso.get().load(R.drawable.returant_placeholder).into(featured_image);
+        }
+        timing.setText(resturant.getRestaurant().getTimings());
+        cuisines.setText(resturant.getRestaurant().getCuisines());
+        name.setText(resturant.getRestaurant().getName());
+        average_cost.setText("Average cost for two : " + resturant.getRestaurant().getAverage_cost_for_two() + " " + resturant.getRestaurant().getCurrency());
+        city.setText("City : " + resturant.getRestaurant().getLocation().getCity());
+        locality.setText("Locality : " + resturant.getRestaurant().getLocation().getLocality());
+        address.setText("Address : " + resturant.getRestaurant().getLocation().getAddress());
+        phone_number.setText("Phone number : " + resturant.getRestaurant().getPhone_numbers());
+
 
     }
 

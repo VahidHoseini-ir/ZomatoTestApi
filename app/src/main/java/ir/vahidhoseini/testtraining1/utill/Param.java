@@ -17,6 +17,7 @@ public class Param {
 
     public Map<String, Object> MapCuratedCollections() {
         Map<String, Object> params = new HashMap<>();
+        params.put("city_id", MyCurrentLocation.getInstance().getCity_id());
         params.put("lat", MyCurrentLocation.getInstance().getLat());
         params.put("lon", MyCurrentLocation.getInstance().getLat());
         params.put("count", Constant.COUNT_OF_Currated_Collection_In_MainActivity);

@@ -142,11 +142,14 @@ public class ApiClient {
                     List<Restaurants> list = null;
                     list = ((ResturantResponse) response.body()).getResturantResponse();
                     if (list.size() > 1) {
+                        Log.e(TAG, "RetrieveResturantsRunnable:" + page);
                         if (page == 1) {
                             mResturants.postValue(list);
                         } else {
                             List<Restaurants> currentResturants = mResturants.getValue();
                             currentResturants.addAll(list);
+                            Log.e(TAG, "RetrieveResturantsRunnable:" + currentResturants.toString());
+                            Log.e(TAG, "RetrieveResturantsRunnable:" + currentResturants.size());
                             mResturants.postValue(currentResturants);
                         }
                     } else {
@@ -154,7 +157,6 @@ public class ApiClient {
                     }
                 } else {
                     String error = response.errorBody().string();
-                    //                    Log.e(TAG, "ZomatoApiClient error :" + error);
                     mResturants.postValue(null);
                 }
             } catch (IOException e) {

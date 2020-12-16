@@ -137,29 +137,58 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    public void setMainResturant(List<Restaurants> r) {
+    //    public void setMainResturant(List<Restaurants> r) {
+    //        removeLoading();
+    //        if (mainData.size() > 1) {
+    //            Log.e(TAG, TAG + " : setMainResturant: Restaurants =" + ((Restaurants) mainData.get(2).getObject()).getRestaurant().getName() + "\n r :" + r.get(1).getRestaurant().getName());
+    //            if (!(((Restaurants) mainData.get(2).getObject()).getRestaurant().getName().equals(r.get(1).getRestaurant().getName()))) {
+    //                setListOfResturantsInMainData(r);
+    //                notifyDataSetChanged();
+    //            } else {
+    //                notifyDataSetChanged();
+    //            }
+    //        } else {
+    //            setListOfResturantsInMainData(r);
+    //            notifyDataSetChanged();
+    //        }
+    //    }
+
+
+    private int lastResturantSize = 0;
+
+    public void setFirstMainResturant(List<Restaurants> r) {
         removeLoading();
-//        if (mainData.size() > 1) {
-//            Log.e(TAG, TAG + " : setMainResturant: Restaurants =" + ((Restaurants) mainData.get(2).getObject()).getRestaurant().getName() + "\n r :" + r.get(1).getRestaurant().getName());
-//            if (!(((Restaurants) mainData.get(2).getObject()).getRestaurant().getName().equals(r.get(1).getRestaurant().getName()))) {
+        if (mainData.size() > 3) { // if for the first time first page was set and now its repeated dont do that it check by below condition
+            if (!(((Restaurants) mainData.get(2).getObject()).getRestaurant().getName().equals(r.get(1).getRestaurant().getName()))) {
                 setListOfResturantsInMainData(r);
                 notifyDataSetChanged();
-//            } else {
-//                return;
-//            }
-//        } else {
-//            setListOfResturantsInMainData(r);
-//            notifyDataSetChanged();
-//        }
+            } else if (r.size() > lastResturantSize) {
+                setListOfResturantsInMainData(r);
+                notifyDataSetChanged();
+            }
+        } else {
+            HowManyItemsIsInListBeforResturanList = mainData.size();
+            setListOfResturantsInMainData(r);
+            notifyDataSetChanged();
+        }
+        lastResturantSize = r.size();
     }
 
     private void setListOfResturantsInMainData(List<Restaurants> r) {
-        HowManyItemsIsInListBeforResturanList = mainData.size();
-        for (int i = 0; i < r.size(); i++) {
-            Main main = new Main();
-            main.setViewholder(ResturantView);
-            main.setObject(r.get(i));
-            mainData.add(main);
+        for (int i = mainData.size() - HowManyItemsIsInListBeforResturanList; i < r.size(); i++) {
+//            if (i == 10 || i == 14 || i == 25) {
+//                Main main = new Main();
+//                main.setViewholder(CollectionView);
+//                main.setObject(mainData.get(0).getObject());
+//                mainData.add(i + 1, main);
+//
+//            }
+//            else {
+                Main main = new Main();
+                main.setViewholder(ResturantView);
+                main.setObject(r.get(i));
+                mainData.add(i + 1, main);
+//            }
         }
     }
 

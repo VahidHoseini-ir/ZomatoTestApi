@@ -1,5 +1,7 @@
 package ir.vahidhoseini.testtraining1.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,7 @@ public class Repository {
 
     public void nextReciveResturantApi() {
         int page = (Integer.parseInt((String) params.get("start")) == 1 ? 0 : Integer.parseInt((String) params.get("start"))) + 10;// if start== 1 it returns 0 else returns start+10
+        Log.e("TAG", "nextReciveResturantApi: page :"+page );
         ApiClient.ReciveResturantsApi(params, page);
     }
 

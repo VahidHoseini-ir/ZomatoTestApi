@@ -76,8 +76,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 mViewModel.queryFinished();
                 if (restaurants != null) {
                     Log.e("TAG", "onChanged: restaurants = " + restaurants.toString());
-                    mAdapter.setMainResturant(restaurants);
-
+                    mAdapter.setFirstMainResturant(restaurants);
                 }
             }
         });
@@ -96,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 if (!recyclerView.canScrollVertically(1)) {
                     if (!mViewModel.isPerformingQuery()) {
                         mAdapter.displayLoading(false);
+
                         mViewModel.nextReciveResturantApi();
 
                     }

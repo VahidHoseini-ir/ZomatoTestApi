@@ -10,6 +10,12 @@ public class Main implements Parcelable {
     public Main() {
     }
 
+    public Main(Object object) {
+        this.object = object;
+
+    }
+
+
     public Main(int viewholder, Object object) {
         this.viewholder = viewholder;
         this.object = object;

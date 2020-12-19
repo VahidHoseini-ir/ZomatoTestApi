@@ -2,37 +2,54 @@ package ir.vahidhoseini.testtraining1.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Map;
 
+import ir.vahidhoseini.testtraining1.BaseActivity;
+import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.adapter.AdapterMain;
 import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
 import ir.vahidhoseini.testtraining1.databinding.ActivityMainBinding;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
+import ir.vahidhoseini.testtraining1.utill.MyApplication;
 import ir.vahidhoseini.testtraining1.utill.Param;
 import ir.vahidhoseini.testtraining1.viewmodel.MainViewModel;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends BaseActivity implements OnClickListener {
 
     private ActivityMainBinding binding;
 
     //variables
     private MainViewModel mViewModel;
     private AdapterMain mAdapter;
+    private Animation animation;
+    private int resturantsPageNumber = 0;
+    Map<String, Object> params = Param.getInstanc().MapResturant();
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.currentActivity = this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +63,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         initRecyclerView();
         curatedCollections();
+        initSearch();
 
+    }
+
+
+    private void initSearch() {
+
+        binding.searchview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ResturantActivity.class));
+            }
+        });
     }
 
 
@@ -55,11 +84,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         reciveCuratedCollections();
         mViewModel.getCollections().observe(this, new Observer<List<Collections>>() {
             @Override
-            public void onChanged(List<Collections> collections) {
-                mViewModel.queryFinished();
-                mAdapter.setCuratedCollections(collections, onCollectionListener());
-                setMainResturants();
-                mViewModel.reciveResturantApi(Param.getInstanc().MapResturant());
+            public void onChanged(List<Collections> c) {
+                dataIsFinishedDontRequestMore = false;
+                if (c != null) {
+                    mViewModel.queryFinished();
+                    mAdapter.setCuratedCollections(c, onCollectionListener());
+                    setMainResturants();
+                    mViewModel.reciveResturantApi(Param.getInstanc().MapResturant());
+                }
             }
         });
     }
@@ -68,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         mViewModel.reciveColletionApi(Param.getInstanc().MapCuratedCollections());
     }
 
+    private boolean dataIsFinishedDontRequestMore = false;
+
     private void setMainResturants() {
         mAdapter.displayLoading(false);
         mViewModel.getMainListResturants().observe(this, new Observer<List<Restaurants>>() {
@@ -75,8 +109,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             public void onChanged(List<Restaurants> restaurants) {
                 mViewModel.queryFinished();
                 if (restaurants != null) {
-                    Log.e("TAG", "onChanged: restaurants = " + restaurants.toString());
-                    mAdapter.setFirstMainResturant(restaurants);
+                    mAdapter.setMainResturant(restaurants);
+                } else {
+                    dataIsFinishedDontRequestMore = true;
+                    mAdapter.displayExhausted();
                 }
             }
         });
@@ -92,14 +128,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (!recyclerView.canScrollVertically(1)) {
-                    if (!mViewModel.isPerformingQuery()) {
-                        mAdapter.displayLoading(false);
+                if (!dataIsFinishedDontRequestMore) {
+                    mAdapter.displayLoading(false);
+                    if (!recyclerView.canScrollVertically(1)) {
+                        if (!mViewModel.isPerformingQuery()) {
+                            mViewModel.nextReciveResturantApi();
 
-                        mViewModel.nextReciveResturantApi();
-
+                        }
                     }
                 }
+
             }
         });
     }

@@ -56,7 +56,7 @@ public class AdapterResturant extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         int itemViewType = getItemViewType(position);
         if (itemViewType == ResturantView) {
-
+            ((ViewHolderResturant) holder).setResturant(resturants.get(position));
         } else if (itemViewType == ExhaustedView) {
             ((ViewHolderLoading) holder).textview.setText(resturants.size() > 1 ? "No more items found" : "What are you looking for?, no items found.");
         }

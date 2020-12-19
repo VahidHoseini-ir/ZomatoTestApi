@@ -6,6 +6,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 public class MyApplication extends Application {
 
     public static MyApplication instance;
@@ -17,6 +19,11 @@ public class MyApplication extends Application {
         if (instance == null) {
             instance = this;
         }
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/okra_medium.ttf")
+                .build()
+        );
+
     }
 
     public static boolean hasNetwork() {

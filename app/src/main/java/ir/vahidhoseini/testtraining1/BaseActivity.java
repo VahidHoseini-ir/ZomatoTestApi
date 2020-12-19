@@ -1,5 +1,6 @@
 package ir.vahidhoseini.testtraining1;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -9,11 +10,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     private LottieAnimationView mProgressBar;
     public final String TAG = "TEST_MVVM";
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     public void setContentView(int layoutResID) {

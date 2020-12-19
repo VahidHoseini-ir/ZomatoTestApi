@@ -26,11 +26,8 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
     private ActivityResturantBinding mBinding;
     private ResturantViewModel mResturantViewModel;
     private AdapterResturant resturantAdapter;
-    private double lat = 40.742051;
-    private double lon = -74.004821;
     private int resturantsPageNumber = 1;
     Map<String, Object> params = Param.getInstanc().MapResturant();
-
 
 
     @Override
@@ -39,9 +36,18 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
         mBinding = ActivityResturantBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         setSupportActionBar(mBinding.toolbar);
+
         mResturantViewModel = new ViewModelProvider(this).get(ResturantViewModel.class);
 
+        initSearchView();
+        ResturantObserver();
+        initRecyclerView();
+
+    }
+
+    private void initSearchView() {
         mBinding.searchview.setFocusable(true);
+        mBinding.searchview.onActionViewExpanded();
         mBinding.searchview.requestFocusFromTouch();
         mBinding.searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -61,10 +67,8 @@ public class ResturantActivity extends BaseActivity implements OnClickListener {
             }
         });
 
-        ResturantObserver();
-        initRecyclerView();
-
     }
+
 
     private void initRecyclerView() {
         resturantAdapter = new AdapterResturant(this);

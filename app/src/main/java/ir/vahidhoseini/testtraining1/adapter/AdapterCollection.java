@@ -34,12 +34,12 @@ public class AdapterCollection extends RecyclerView.Adapter<RecyclerView.ViewHol
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_collection, parent, false);
         if (ifListIsInMainActivity) {
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-            layoutParams.width = 450;
-            layoutParams.height = 450;
+            layoutParams.width = 350;
+            layoutParams.height = 350;
             view.setLayoutParams(layoutParams);
         }else{
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-            layoutParams.height = 600;
+            layoutParams.height = 450;
             view.setLayoutParams(layoutParams);
         }
         return new ViewHolderCollection(view, onClickListener);

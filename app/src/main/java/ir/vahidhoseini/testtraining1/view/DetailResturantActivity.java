@@ -10,12 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
+import ir.vahidhoseini.testtraining1.BaseActivity;
 import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.databinding.ActivityDetailResturantBinding;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Location;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
 
-public class DetailResturantActivity extends AppCompatActivity {
+public class DetailResturantActivity extends BaseActivity {
 
     private ActivityDetailResturantBinding binding;
 

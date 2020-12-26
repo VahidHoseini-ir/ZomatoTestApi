@@ -4,6 +4,7 @@ import java.util.Map;
 
 import ir.vahidhoseini.testtraining1.request.zomatoresponse.CollectionResponse;
 import ir.vahidhoseini.testtraining1.request.zomatoresponse.ResturantResponse;
+import ir.vahidhoseini.testtraining1.request.zomatoresponse.ReviewResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -36,6 +37,11 @@ public interface Api {
     @Headers({"Accept: application/json", "user-key: fc44acfa5a5f36d37869fe177107285c",})
     @GET("api/v2.1/search")
     Call<ResturantResponse> getTestResturant(@QueryMap Map<String, Object> params);
+
+
+    @Headers({"Accept: application/json", "user-key: fc44acfa5a5f36d37869fe177107285c",})
+    @GET("api/v2.1/reviews")
+    Call<ReviewResponse> getReviews(@QueryMap Map<String, Object> params);
 
 
 }

@@ -38,6 +38,11 @@ import ir.vahidhoseini.testtraining1.viewmodel.CategoriesViewModel;
 
 import static ir.vahidhoseini.testtraining1.utill.Constant.COUNT_OF_RESTURANT_LIST_MAIN;
 
+/**
+ * I dont use this activity i just need it if i some times
+ * i wanted to add the categories list
+ * and ofcourse the @AdapaterListRecyclerViews is just made for this activity with its viwholder
+ */
 public class CategoriesListActivity extends BaseActivity implements OnClickListener {
 
     //views
@@ -48,8 +53,6 @@ public class CategoriesListActivity extends BaseActivity implements OnClickListe
     private CategoriesViewModel mViewModel;
     private List<Category> mCategories;
     private int mLastListOfCategory;
-    private double lat = 40.742051;
-    private double lon = -74.004821;
 
     @Override
     protected void onResume() {

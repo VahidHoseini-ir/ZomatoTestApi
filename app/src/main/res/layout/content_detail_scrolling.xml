@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollbar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".view.DetailResturantActivity"
+    tools:showIn="@layout/activity_detail_resturant">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dip">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        app:tint="@android:color/darker_gray" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        app:tint="@android:color/darker_gray" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        app:tint="@android:color/darker_gray" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        app:tint="@android:color/darker_gray" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        app:tint="@android:color/darker_gray" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dip">
+
+                    <ImageView
+                        android:id="@+id/rate1"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/rate2"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/rate3"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        android:visibility="gone"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/rate4"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        android:visibility="gone"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/rate5"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/abc_ic_star_black_16dp"
+                        android:visibility="gone"
+
+                        />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/Aggregate_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/vote_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="4dip"
+                android:paddingRight="4dip"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/name"
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="The Curry Culture"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/black"
+            tools:ignore="MissingPrefix" />
+
+        <TextView
+            android:id="@+id/establishment"
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dip"
+            android:paddingLeft="16dp"
+
+            android:paddingRight="150dip"
+            android:text="Casual Dining , backery - bagels, fast food, cofeee and tee"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#525252"
+            tools:ignore="MissingPrefix" />
+
+
+        <TextView
+            android:id="@+id/locality"
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dip"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+
+            android:paddingRight="16dp"
+            android:text="Somerset, Orchard"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#525252"
+            tools:ignore="MissingPrefix" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dip"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timing"
+                    fontPath="font/okra_thin.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dip"
+                    android:layout_weight="1"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="open now - 11 AM to 11 PM (Mon-Thu), \n 24 Hours (Fri-Sun)"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="#323232"
+                    android:textStyle="bold"
+                    tools:ignore="MissingPrefix" />
+
+                <TextView
+                    android:id="@+id/average_cost"
+                    fontPath="font/okra_thin.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dip"
+                    android:layout_marginBottom="8dip"
+                    android:layout_weight="1"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="cost for two  :"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="#323232"
+                    android:textStyle="bold"
+                    tools:ignore="MissingPrefix" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+
+                android:drawableLeft="@drawable/ic_twotone_call_24"
+                android:drawableTint="?attr/colorPrimary"
+                android:focusable="true"
+                android:padding="8dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dip"
+            android:background="#efefef" />
+
+        <TextView
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="16dip"
+            android:text="A D D R E S S"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#525252"
+            android:textStyle="bold"
+            tools:ignore="MissingPrefix" />
+
+
+        <TextView
+            android:id="@+id/address"
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dip"
+            android:layout_weight="1"
+            android:paddingLeft="16dip"
+            android:paddingRight="16dip"
+            android:text="Address  :"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#525252"
+            tools:ignore="MissingPrefix" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/copy_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_outline_file_copy_24"
+                android:drawableTint="?attr/colorPrimary"
+                android:focusable="true"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="4dp"
+                android:text="  Copy Location"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="12sp"
+                tools:ignore="MissingPrefix" />
+
+            <TextView
+                android:id="@+id/get_directon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_outline_directions_24"
+                android:drawableTint="?attr/colorPrimary"
+                android:focusable="true"
+                android:gravity="center"
+                android:maxLines="1"
+
+                android:padding="4dp"
+                android:text="  Get Directions"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dip"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#efefef" />
+
+        <TextView
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="16dip"
+            android:text="D E T A I L S"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#525252"
+            android:textStyle="bold"
+            tools:ignore="MissingPrefix" />
+
+        <TextView
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dip"
+            android:layout_weight="1"
+            android:paddingLeft="16dip"
+            android:paddingRight="16dip"
+            android:text="CUISINES"
+            android:textColor="#898989"
+            android:textSize="12dip"
+            tools:ignore="MissingPrefix" />
+
+        <com.nex3z.flowlayout.FlowLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cuisines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dip"
+            app:flChildSpacing="16dip"
+            app:flChildSpacingForLastRow="align"
+            app:flRowSpacing="8dp" />
+
+        <TextView
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dip"
+            android:layout_weight="1"
+            android:paddingLeft="16dip"
+            android:paddingRight="16dip"
+            android:text="OTHER INFO"
+            android:textColor="#898989"
+            android:textSize="12dip"
+            tools:ignore="MissingPrefix" />
+
+        <LinearLayout
+            android:id="@+id/other_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dip"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dip" />
+
+        <TextView
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dip"
+            android:layout_weight="1"
+            android:paddingLeft="16dip"
+            android:paddingRight="16dip"
+            android:text="REVIEWS"
+            android:textColor="#898989"
+            android:textSize="12dip"
+            tools:ignore="MissingPrefix" />
+
+        <LinearLayout
+            android:id="@+id/reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dip"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dip" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dip"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:padding="16dip">
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_height="48dp"
+                android:layout_weight="0.75"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/z_watermark" />
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:paddingLeft="24dip"
+                android:paddingRight="24dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/think_food_think_zomato" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

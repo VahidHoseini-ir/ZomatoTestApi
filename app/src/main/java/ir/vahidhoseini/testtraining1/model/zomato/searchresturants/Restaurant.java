@@ -21,11 +21,12 @@ public class Restaurant implements Parcelable {
     private String currency;
     private String thumb;
     private String[] highlights;
+    private String[] establishment;
     private String featured_image;
     private String phone_numbers;
     private Location location;
+    private Rate user_rating;
     private Object R;
-    private Object user_rating;
     private int has_online_delivery;
     private int is_delivering_now;
     private int is_table_reservation_supported;
@@ -35,7 +36,6 @@ public class Restaurant implements Parcelable {
     private int is_book_form_web_view;
     private String book_form_web_view_url;
     private int all_reviews_count;
-
 
     public Restaurant() {
     }
@@ -48,9 +48,11 @@ public class Restaurant implements Parcelable {
         currency = in.readString();
         thumb = in.readString();
         highlights = in.createStringArray();
+        establishment = in.createStringArray();
         featured_image = in.readString();
         phone_numbers = in.readString();
         location = in.readParcelable(Location.class.getClassLoader());
+        user_rating = in.readParcelable(Rate.class.getClassLoader());
         has_online_delivery = in.readInt();
         is_delivering_now = in.readInt();
         is_table_reservation_supported = in.readInt();
@@ -76,7 +78,7 @@ public class Restaurant implements Parcelable {
 
     @Override
     public String toString() {
-        return "Restaurant{" + "name='" + name + '\'' + ", cuisines='" + cuisines + '\'' + ", timings='" + timings + '\'' + ", average_cost_for_two=" + average_cost_for_two + ", currency='" + currency + '\'' + ", thumb='" + thumb + '\'' + ", highlights=" + Arrays.toString(highlights) + ", featured_image='" + featured_image + '\'' + ", phone_numbers='" + phone_numbers + '\'' + ", location=" + location + ", R=" + R + ", user_rating=" + user_rating + ", has_online_delivery=" + has_online_delivery + ", is_delivering_now=" + is_delivering_now + ", is_table_reservation_supported=" + is_table_reservation_supported + ", has_table_booking=" + has_table_booking + ", opentable_support=" + opentable_support + ", is_zomato_book_res=" + is_zomato_book_res + ", is_book_form_web_view=" + is_book_form_web_view + ", book_form_web_view_url='" + book_form_web_view_url + '\'' + ", all_reviews_count=" + all_reviews_count + '}';
+        return "Restaurant{" + "name='" + name + '\'' + ", cuisines='" + cuisines + '\'' + ", timings='" + timings + '\'' + ", average_cost_for_two=" + average_cost_for_two + ", currency='" + currency + '\'' + ", thumb='" + thumb + '\'' + ", highlights=" + Arrays.toString(highlights) + ", establishment=" + Arrays.toString(establishment) + ", featured_image='" + featured_image + '\'' + ", phone_numbers='" + phone_numbers + '\'' + ", location=" + location + ", user_rating=" + user_rating + ", R=" + R + ", has_online_delivery=" + has_online_delivery + ", is_delivering_now=" + is_delivering_now + ", is_table_reservation_supported=" + is_table_reservation_supported + ", has_table_booking=" + has_table_booking + ", opentable_support=" + opentable_support + ", is_zomato_book_res=" + is_zomato_book_res + ", is_book_form_web_view=" + is_book_form_web_view + ", book_form_web_view_url='" + book_form_web_view_url + '\'' + ", all_reviews_count=" + all_reviews_count + '}';
     }
 
     public String getName() {
@@ -135,6 +137,14 @@ public class Restaurant implements Parcelable {
         this.highlights = highlights;
     }
 
+    public String[] getEstablishment() {
+        return establishment;
+    }
+
+    public void setEstablishment(String[] establishment) {
+        this.establishment = establishment;
+    }
+
     public String getFeatured_image() {
         return featured_image;
     }
@@ -159,20 +169,20 @@ public class Restaurant implements Parcelable {
         this.location = location;
     }
 
+    public Rate getUser_rating() {
+        return user_rating;
+    }
+
+    public void setUser_rating(Rate user_rating) {
+        this.user_rating = user_rating;
+    }
+
     public Object getR() {
         return R;
     }
 
     public void setR(Object r) {
         R = r;
-    }
-
-    public Object getUser_rating() {
-        return user_rating;
-    }
-
-    public void setUser_rating(Object user_rating) {
-        this.user_rating = user_rating;
     }
 
     public int getHas_online_delivery() {
@@ -253,25 +263,27 @@ public class Restaurant implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(cuisines);
-        parcel.writeString(timings);
-        parcel.writeInt(average_cost_for_two);
-        parcel.writeString(currency);
-        parcel.writeString(thumb);
-        parcel.writeStringArray(highlights);
-        parcel.writeString(featured_image);
-        parcel.writeString(phone_numbers);
-        parcel.writeParcelable(location, i);
-        parcel.writeInt(has_online_delivery);
-        parcel.writeInt(is_delivering_now);
-        parcel.writeInt(is_table_reservation_supported);
-        parcel.writeInt(has_table_booking);
-        parcel.writeInt(opentable_support);
-        parcel.writeInt(is_zomato_book_res);
-        parcel.writeInt(is_book_form_web_view);
-        parcel.writeString(book_form_web_view_url);
-        parcel.writeInt(all_reviews_count);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(cuisines);
+        dest.writeString(timings);
+        dest.writeInt(average_cost_for_two);
+        dest.writeString(currency);
+        dest.writeString(thumb);
+        dest.writeStringArray(highlights);
+        dest.writeStringArray(establishment);
+        dest.writeString(featured_image);
+        dest.writeString(phone_numbers);
+        dest.writeParcelable(location, flags);
+        dest.writeParcelable(user_rating, flags);
+        dest.writeInt(has_online_delivery);
+        dest.writeInt(is_delivering_now);
+        dest.writeInt(is_table_reservation_supported);
+        dest.writeInt(has_table_booking);
+        dest.writeInt(opentable_support);
+        dest.writeInt(is_zomato_book_res);
+        dest.writeInt(is_book_form_web_view);
+        dest.writeString(book_form_web_view_url);
+        dest.writeInt(all_reviews_count);
     }
 }

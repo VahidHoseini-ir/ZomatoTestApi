@@ -95,5 +95,11 @@ dependencies {
     def calligraphy = "2.3.0"
     implementation "uk.co.chrisjenx:calligraphy:$calligraphy"
 
+    // a layout wich is used for cuisines in detail activity
+    implementation 'com.nex3z:flow-layout:1.3.3'
+
+    // circle image view
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 
 }

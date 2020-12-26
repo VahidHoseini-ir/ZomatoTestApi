@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         if (id == seeAll) {
             Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, CollectionActivity.class));
-
+        }else{
         }
     }
 }

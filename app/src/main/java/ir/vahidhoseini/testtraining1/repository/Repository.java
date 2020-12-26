@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 import java.util.Map;
 import ir.vahidhoseini.testtraining1.model.zomato.Collections;
+import ir.vahidhoseini.testtraining1.model.zomato.Reviews;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.request.ApiClient;
 import ir.vahidhoseini.testtraining1.request.MainApiClient;
@@ -62,5 +63,12 @@ public class Repository {
 
     public void cancelRequest() {
         ApiClient.cancelRequest();
+    }
+
+    public void reciveReviews(Map<String, Object> mapReviews) {
+        ApiClient.reciveReviews(mapReviews , 0);
+    }
+    public LiveData<List<Reviews>> getReviews() {
+        return ApiClient.getReviews();
     }
 }

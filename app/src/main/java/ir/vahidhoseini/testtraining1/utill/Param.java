@@ -38,4 +38,12 @@ public class Param {
         return params;
     }
 
+    public Map<String, Object> MapReviews() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("res_id", 1);
+        params.put("start", "0");
+        params.put("count", Constant.COUNT_OF_REVIEWS_IN_DETAILACTIVITY);
+        return params;
+    }
+
 }

@@ -1,12 +1,12 @@
 package ir.vahidhoseini.testtraining1.adapter;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import ir.vahidhoseini.testtraining1.R;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.utill.MyApplication;
+import ir.vahidhoseini.testtraining1.view.DetailResturantActivity;
 
 public class ViewHolderResturant extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -26,9 +27,7 @@ public class ViewHolderResturant extends RecyclerView.ViewHolder implements View
     TextView name;
     TextView average_cost;
     TextView rate;
-    //    TextView locality;
     TextView address;
-    //    TextView phone_number;
     OnClickListener onClickListener;
     int categoryId;
 
@@ -42,9 +41,7 @@ public class ViewHolderResturant extends RecyclerView.ViewHolder implements View
         name = itemView.findViewById(R.id.name);
         average_cost = itemView.findViewById(R.id.average_cost);
         rate = itemView.findViewById(R.id.rate);
-        //        locality = itemView.findViewById(R.id.locality);
         address = itemView.findViewById(R.id.address);
-        //        phone_number = itemView.findViewById(R.id.phone_number);
         itemView.setOnClickListener(this);
     }
 
@@ -65,19 +62,21 @@ public class ViewHolderResturant extends RecyclerView.ViewHolder implements View
             featured_image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             Picasso.get().load(R.drawable.returant_placeholder).into(featured_image);
         }
-        try {
-            rate.setText((new JSONObject(resturant.getRestaurant().getUser_rating().toString())).getString("aggregate_rating"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        rate.setText(resturant.getRestaurant().getUser_rating().getAggregate_rating());
 
     }
 
     @Override
     public void onClick(View view) {
         try {
-            Toast.makeText(MyApplication.currentActivity, mResturant.getRestaurant().getName() + " res_id  is: " + (new JSONObject(mResturant.getRestaurant().getR().toString())).get("res_id"), Toast.LENGTH_LONG).show();
-        } catch (JSONException e) {
+            //            Long id = new JSONObject(mResturant.getRestaurant().getR().toString()).getLong("res_id");
+
+            Intent intent = new Intent(MyApplication.currentActivity, DetailResturantActivity.class);
+            intent.putExtra("Restaurants", mResturant.getRestaurant());
+            intent.putExtra("Location", mResturant.getRestaurant().getLocation());
+            intent.putExtra("Rate", mResturant.getRestaurant().getUser_rating());
+            MyApplication.currentActivity.startActivity(intent);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

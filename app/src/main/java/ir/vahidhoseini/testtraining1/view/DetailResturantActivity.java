@@ -16,10 +16,13 @@ import android.os.Bundle;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,17 +40,21 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ir.vahidhoseini.testtraining1.BaseActivity;
 import ir.vahidhoseini.testtraining1.R;
+import ir.vahidhoseini.testtraining1.adapter.AdapterResturant;
+import ir.vahidhoseini.testtraining1.adapter.AdapterSimilarResturant;
+import ir.vahidhoseini.testtraining1.adapter.OnClickListener;
 import ir.vahidhoseini.testtraining1.customviews.CuisinesView;
 import ir.vahidhoseini.testtraining1.databinding.ActivityDetailResturantBinding;
 import ir.vahidhoseini.testtraining1.model.zomato.Reviews;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Location;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Rate;
 import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurant;
+import ir.vahidhoseini.testtraining1.model.zomato.searchresturants.Restaurants;
 import ir.vahidhoseini.testtraining1.utill.MyApplication;
 import ir.vahidhoseini.testtraining1.utill.Param;
 import ir.vahidhoseini.testtraining1.viewmodel.DetailViewModel;
 
-public class DetailResturantActivity extends BaseActivity {
+public class DetailResturantActivity extends BaseActivity implements OnClickListener {
 
     private DetailViewModel mViewModel;
     private ActivityDetailResturantBinding binding;
@@ -87,51 +94,48 @@ public class DetailResturantActivity extends BaseActivity {
             setRateToView(rate);
             setLocationToView(location);
             setOtherSecionsToView(restaurants);
-            setReviews();
+            //            setReviews();
+            setSimilarResturant();
+
 
         } else {
 
         }
     }
 
-    private void setReviews() {
-        Map<String , Object> param = Param.getInstanc().MapReviews();
-        param.put("res_id", 18902483);
-        mViewModel.reciveReviews(param);
-        mViewModel.getReviews().observe(this, new Observer<List<Reviews>>() {
+    private void setSimilarResturant() {
+        initSearchView();
+        resturantObserver();
+        Map<String , Object> param = Param.getInstanc().MapResturant();
+        param.put("radius" , Double.valueOf(1000));
+        param.put("sort" , "cost");
+        param.put("order", "asc");
+        mViewModel.reciveResturantApi(param);
+
+    }
+
+    private AdapterSimilarResturant resturantAdapter;
+
+    private void initSearchView() {
+        resturantAdapter = new AdapterSimilarResturant(this);
+        binding.include.similarResturant.setAdapter(resturantAdapter);
+        binding.include.similarResturant.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void resturantObserver() {
+        mViewModel.getResturants().observe(this, new Observer<List<Restaurants>>() {
             @Override
-            public void onChanged(List<Reviews> reviews) {
-                if (reviews != null) {
-                    for (int i = 0; i < 5; i++) {
-                        View view = getLayoutInflater().inflate(R.layout.layout_item_review, binding.include.reviews, false);
-                        CircleImageView profileImage = view.findViewById(R.id.profile_image);
-                        ImageView rate1 = view.findViewById(R.id.rate1);
-                        ImageView rate2 = view.findViewById(R.id.rate2);
-                        ImageView rate3 = view.findViewById(R.id.rate3);
-                        ImageView rate4 = view.findViewById(R.id.rate4);
-                        ImageView rate5 = view.findViewById(R.id.rate5);
-                        ImageView[] rate = new ImageView[]{rate1, rate2, rate3, rate4, rate5};
-
-                        TextView name = view.findViewById(R.id.name);
-                        TextView reviewText = view.findViewById(R.id.review_text);
-                        TextView review_time = view.findViewById(R.id.review_time);
-                        review_time.setText(reviews.get(i).getReview().getReview_time_friendly());
-//                        name.setText(reviews.get(i).getReview().getName());
-                        reviewText.setText(reviews.get(i).getReview().getReview_text());
-
-//                        if (!reviews.get(i).getReview().getProfile_image().isEmpty()) {
-//                            Picasso.get().load(reviews.get(i).getReview().getProfile_image()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(profileImage);
-//                            profileImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                        } else {
-//                            profileImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-//                            Picasso.get().load(R.drawable.returant_placeholder).into(profileImage);
-//                        }
-
-                        for (int j = 0; j < reviews.get(i).getReview().getRating(); j++) {
-                            rate[j].setVisibility(View.VISIBLE);
-                        }
-                        binding.include.reviews.addView(view);
+            public void onChanged(List<Restaurants> restaurants) {
+                mViewModel.performingQueryFinished();
+                if (restaurants != null) {
+                    int countOfShow= 0;
+                    if(restaurants.size()<30){
+                        countOfShow = restaurants.size();
+                    }else if(restaurants.size()>30 ){
+                        countOfShow = 30;
                     }
+                    resturantAdapter.setResturants(restaurants.subList(0,countOfShow));
+                } else {
 
                 }
             }
@@ -338,5 +342,60 @@ public class DetailResturantActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    public void onClickListener(int position) {
+
+    }
+
+    /**
+     * this is part of review that can be added any time but becuase of content of review that some time is empty
+     * i would rather to not showing in detail activity
+     */
+    //    private void setReviews() {
+    //        Map<String, Object> param = Param.getInstanc().MapReviews();
+    //        param.put("res_id", 16782899);
+    //        mViewModel.reciveReviews(param);
+    //        mViewModel.getReviews().observe(this, new Observer<List<Reviews>>() {
+    //            @Override
+    //            public void onChanged(List<Reviews> reviews) {
+    //                if (reviews != null) {
+    //                    Log.e(TAG, "onChanged: reviews :" + reviews.toString());
+    //                    for (int i = 0; i < 5; i++) {
+    //                        View view = getLayoutInflater().inflate(R.layout.layout_item_review, binding.include.reviews, false);
+    //                        CircleImageView profileImage = view.findViewById(R.id.profile_image);
+    //                        ImageView rate1 = view.findViewById(R.id.rate1);
+    //                        ImageView rate2 = view.findViewById(R.id.rate2);
+    //                        ImageView rate3 = view.findViewById(R.id.rate3);
+    //                        ImageView rate4 = view.findViewById(R.id.rate4);
+    //                        ImageView rate5 = view.findViewById(R.id.rate5);
+    //                        ImageView[] rate = new ImageView[]{rate1, rate2, rate3, rate4, rate5};
+    //
+    //                        TextView name = view.findViewById(R.id.name);
+    //                        TextView reviewText = view.findViewById(R.id.review_text);
+    //                        TextView review_time = view.findViewById(R.id.review_time);
+    //                        review_time.setText(reviews.get(i).getReview().getReview_time_friendly());
+    //                        name.setText(reviews.get(i).getReview().getUser().getName());
+    //                        reviewText.setText(reviews.get(i).getReview().getReview_text());
+    //
+    //                        if (!reviews.get(i).getReview().getUser().getProfile_image().isEmpty()) {
+    //                            Picasso.get().load(reviews.get(i).getReview().getUser().getProfile_image()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(profileImage);
+    //                            profileImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+    //                        } else {
+    //                            profileImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+    //                            Picasso.get().load(R.drawable.returant_placeholder).into(profileImage);
+    //                        }
+    //
+    //                        for (int j = 0; j < reviews.get(i).getReview().getRating(); j++) {
+    //                            rate[j].setVisibility(View.VISIBLE);
+    //                        }
+    //                        binding.include.reviews.addView(view);
+    //                    }
+    //
+    //                }
+    //            }
+    //        });
+    //    }
+
 
 }

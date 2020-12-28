@@ -384,6 +384,7 @@
             android:text="REVIEWS"
             android:textColor="#898989"
             android:textSize="12dip"
+            android:visibility="gone"
             tools:ignore="MissingPrefix" />
 
         <LinearLayout
@@ -393,7 +394,34 @@
             android:layout_marginBottom="24dip"
             android:orientation="vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="16dip" />
+            android:paddingRight="16dip"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dip"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#efefef" />
+
+        <TextView
+            fontPath="font/okra_medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="16dip"
+            android:text="SIMILAR RESTURANT"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#525252"
+            android:textStyle="bold"
+            tools:ignore="MissingPrefix" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/similar_resturant"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
 
         <LinearLayout
             android:layout_width="match_parent"

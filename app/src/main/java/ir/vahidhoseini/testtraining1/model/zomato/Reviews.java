@@ -3,8 +3,13 @@ package ir.vahidhoseini.testtraining1.model.zomato;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Reviews  implements Parcelable {
+public class Reviews implements Parcelable {
     public Review review;
+
+    @Override
+    public String toString() {
+        return "Reviews{" + "review=" + review + '}';
+    }
 
     protected Reviews(Parcel in) {
     }

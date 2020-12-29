@@ -16,8 +16,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,9 +42,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     //variables
     private MainViewModel mViewModel;
     private AdapterMain mAdapter;
-    private Animation animation;
-    private int resturantsPageNumber = 0;
-    Map<String, Object> params = Param.getInstanc().MapResturant();
+    private Animation mAnimation;
+    private Map<String, Object> mParams = Param.getInstanc().MapResturant();
 
 
     @Override
@@ -54,22 +55,74 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
         initRecyclerView();
         curatedCollections();
         initSearch();
+        setFiltering();
+    }
 
+    private void setFiltering() {
+        binding.rootFiltering.rootFiltering.setVisibility(View.GONE);
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.from_bottom_to_top);
+                binding.rootFiltering.rootFiltering.startAnimation(mAnimation);
+                binding.rootFiltering.rootFiltering.setVisibility(View.VISIBLE);
+            }
+        });
+        Map<String, Object> param = Param.getInstanc().MapResturant();
+        binding.rootFiltering.sortGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rating: {
+                        param.put("sort", "rating");
+
+                    }
+                    case R.id.cost: {
+                        param.put("sort", "cost");
+
+                    }
+                    case R.id.distance: {
+                        param.put("sort", "real_distance");
+
+                    }
+                }
+            }
+        });
+        binding.rootFiltering.orderGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.ascending: {
+                        param.put("order", "asc");
+                    }
+                    case R.id.descending: {
+                        param.put("order", "desc");
+                    }
+                }
+            }
+        });
+        binding.rootFiltering.filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mParams = param;
+                mAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.from_top_to_bottom);
+                binding.rootFiltering.rootFiltering.startAnimation(mAnimation);
+                binding.rootFiltering.rootFiltering.setVisibility(View.GONE);
+                mAdapter.removeResturants();
+                mViewModel.reciveResturantApi(mParams);
+            }
+        });
     }
 
 
     private void initSearch() {
-
         binding.searchview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +143,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                     mViewModel.queryFinished();
                     mAdapter.setCuratedCollections(c, onCollectionListener());
                     setMainResturants();
-                    mViewModel.reciveResturantApi(Param.getInstanc().MapResturant());
+                    mViewModel.reciveResturantApi(mParams);
                 }
             }
         });
@@ -133,7 +186,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                     if (!recyclerView.canScrollVertically(1)) {
                         if (!mViewModel.isPerformingQuery()) {
                             mViewModel.nextReciveResturantApi();
-
                         }
                     }
                 }
@@ -166,7 +218,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         if (id == seeAll) {
             Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, CollectionActivity.class));
-        }else{
+        } else {
         }
     }
 }

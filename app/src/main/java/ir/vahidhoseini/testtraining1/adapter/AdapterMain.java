@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,7 +60,6 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Log.e(TAG, TAG + " : onBindViewHolder: position =" + position);
         int view_type = getItemViewType(position);
         if (view_type == CollectionView) {
             ((ViewHolderRecyclerview) holder).setCollection(((List<Collections>) mainData.get(position).getObject()), onCollectionListener);
@@ -78,12 +78,9 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        Log.e(TAG, TAG + " : getItemViewType: position =" + position);
-
         if (position == mainData.size() - 1 && mainData.get(position).getViewholder() == LoadingView) {
             return LoadingView;
         } else if (position == mainData.size() - 1 && mainData.get(position).getViewholder() == ExhaustedView) {
-            Log.e(TAG, "getItemViewType: ExhaustedView");
             return ExhaustedView;
         } else if (mainData.get(position).getViewholder() == CollectionView && mainData.get(position).getObject() instanceof ArrayList) {
             return CollectionView;
@@ -151,6 +148,17 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public void removeResturants() {
+        for (int i = 0; i < mainData.size(); i++) {
+            if (mainData.get(i).getViewholder() == ResturantView || mainData.get(i).getViewholder() == LoadingView || ExhaustedView == mainData.get(i).getViewholder()) {
+                mainData.remove(i);
+            }
+        }
+        notifyDataSetChanged();
+        displayLoading(false);
+    }
+
+
     private void removeLoading() {
         for (int i = 0; i < mainData.size(); i++) {
             if (mainData.get(i).getViewholder() == LoadingView && mainData.get(i).getObject() == null) {
@@ -193,7 +201,7 @@ public class AdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void setListOfResturantsInMainData(List<Restaurants> r) {
-        for (int i = (mainData.size() - HowManyItemsIsInListExceptResturanList) -1; i < r.size(); i++) {
+        for (int i = (mainData.size() - HowManyItemsIsInListExceptResturanList) - 1; i < r.size(); i++) {
             Main main = new Main();
             main.setViewholder(ResturantView);
             main.setObject(r.get(i));

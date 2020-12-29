@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootelements"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
@@ -26,6 +27,7 @@
 
                 <TextView
                     android:id="@+id/location"
+                    fontPath="font/okra_medium.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -39,7 +41,6 @@
                     android:paddingLeft="8dip"
                     android:paddingRight="8dip"
                     android:text="NewYork"
-                    fontPath="font/okra_medium.ttf"
                     android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="#fff"
                     tools:ignore="MissingPrefix" />
@@ -49,6 +50,9 @@
                     android:id="@+id/searchview"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_search_black_24dp" />
 
@@ -59,10 +63,30 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dip"
+            android:scaleType="centerInside"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:srcCompat="@drawable/ic_baseline_sort_24" />
+    </LinearLayout>
+
+
+  <include
+      android:id="@+id/root_filtering" layout="@layout/layout_content_filtering"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

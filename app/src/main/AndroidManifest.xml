@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".utill.MyApplication"
@@ -15,13 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.DetailCollectionActivity"></activity>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".view.DetailResturantActivity"
@@ -30,18 +30,9 @@
         <activity
             android:name=".view.CategoriesListActivity"
             android:label="@string/title_activity_main1"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-
-        </activity>
-        <activity android:name=".view.ResturantActivity">
-
-
-        </activity>
-        <activity android:name=".view.CollectionActivity">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".view.ResturantActivity"></activity>
+        <activity android:name=".view.CollectionActivity"></activity>
     </application>
 
 </manifest>

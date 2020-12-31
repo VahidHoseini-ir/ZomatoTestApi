@@ -38,7 +38,6 @@ public class ViewHolderRecyclerview extends RecyclerView.ViewHolder implements V
         if (restaurants.size() > 1) {
             startPoint = restaurants.size();
             categoryId = categoryid;
-
             resturantAdapter = new AdapterMainResturant(categoryId);
             main_resturant_list.setAdapter(resturantAdapter);
             main_resturant_list.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, true));

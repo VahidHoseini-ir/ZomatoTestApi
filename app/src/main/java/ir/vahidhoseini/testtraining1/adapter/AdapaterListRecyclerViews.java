@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,7 +60,7 @@ public class AdapaterListRecyclerViews extends RecyclerView.Adapter<RecyclerView
                 ((ViewHolderRecyclerview) holder).setData(mAllListOfResturants.get(position), mWhichResturanList.get(position), mWhichCategoryList.get(position));
             }
         } else if (getItemViewType(position) == mBannerView) {
-            ((ViewHolderBanner) holder).mBannerView.setImageDrawable(Context.getDrawable(R.drawable.restaurant_banner));
+            ((ImageView) holder.itemView).setImageDrawable(Context.getDrawable(R.drawable.restaurant_banner));
         }
 
     }

@@ -69,7 +69,7 @@ public class ViewHolderResturant extends RecyclerView.ViewHolder implements View
         average_cost.setText(resturant.getRestaurant().getCurrency() + resturant.getRestaurant().getAverage_cost_for_two() + "for two");
         address.setText(resturant.getRestaurant().getLocation().getAddress() + "," + resturant.getRestaurant().getLocation().getCity());
         if (!resturant.getRestaurant().getFeatured_image().isEmpty()) {
-            Picasso.get().load(resturant.getRestaurant().getFeatured_image()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(featured_image);
+            Picasso.get().load(resturant.getRestaurant().getFeatured_image()).resize(300, 150).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(featured_image);
             featured_image.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             featured_image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);

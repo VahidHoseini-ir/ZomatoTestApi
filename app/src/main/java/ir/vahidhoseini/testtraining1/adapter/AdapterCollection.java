@@ -37,7 +37,7 @@ public class AdapterCollection extends RecyclerView.Adapter<RecyclerView.ViewHol
             layoutParams.width = 350;
             layoutParams.height = 350;
             view.setLayoutParams(layoutParams);
-        }else{
+        } else {
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
             layoutParams.height = 450;
             view.setLayoutParams(layoutParams);
@@ -48,30 +48,21 @@ public class AdapterCollection extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        if (!collections.get(position).getCollection().getImage_url().isEmpty()) {
-            Picasso.get().load(collections.get(position).getCollection().getImage_url()).placeholder(R.drawable.returant_placeholder).error(R.drawable.returant_placeholder).into(((ViewHolderCollection) holder).imageView);
-        } else {
-            Picasso.get().load(R.drawable.returant_placeholder).into(((ViewHolderCollection) holder).imageView);
-        }
-        ((ViewHolderCollection) holder).title.setText(collections.get(position).getCollection().getTitle());
-        ((ViewHolderCollection) holder).count_places.setText(collections.get(position).getCollection().getRes_count() + " places");
-        ((ViewHolderCollection) holder).collection_id = collections.get(position).getCollection().getCollection_id();
+        ((ViewHolderCollection) holder).setData(collections.get(position).getCollection());
         if (!ifListIsInMainActivity) {
             ((ViewHolderCollection) holder).description.setVisibility(View.VISIBLE);
-            ((ViewHolderCollection) holder).description.setText(collections.get(position).getCollection().getDescription());
-            ((ViewHolderCollection) holder).count_places.setCompoundDrawablesWithIntrinsicBounds( 0 , 0 , R.drawable.ic_baseline_double_arrow_24 , 0);
-            ((ViewHolderCollection) holder).title.setPadding(16, 0 , 16, 0);
-            ((ViewHolderCollection) holder).description.setPadding(16, 0 , 16, 0);
-            ((ViewHolderCollection) holder).count_places.setPadding(16, 0 , 16, 16);
+            ((ViewHolderCollection) holder).count_places.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_double_arrow_24, 0);
+            ((ViewHolderCollection) holder).title.setPadding(16, 0, 16, 0);
+            ((ViewHolderCollection) holder).description.setPadding(16, 0, 16, 0);
+            ((ViewHolderCollection) holder).count_places.setPadding(16, 0, 16, 16);
 
-        }else{
+        } else {
+            ((ViewHolderCollection) holder).description.setVisibility(View.GONE);
             ((ViewHolderCollection) holder).title.setTextSize(12);
-            ((ViewHolderCollection) holder).title.setPadding(20, 0 , 20, 0);
+            ((ViewHolderCollection) holder).title.setPadding(20, 0, 20, 0);
             ((ViewHolderCollection) holder).count_places.setTextSize(10);
-            ((ViewHolderCollection) holder).count_places.setPadding(20, 0 , 20, 20);
+            ((ViewHolderCollection) holder).count_places.setPadding(20, 0, 20, 20);
         }
-
     }
 
 

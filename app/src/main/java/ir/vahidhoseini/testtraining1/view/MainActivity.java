@@ -154,12 +154,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     private boolean dataIsFinishedDontRequestMore = false;
+    private boolean isDoneTheLastResturantRequest = false;
 
     private void setMainResturants() {
         mAdapter.displayLoading(false);
         mViewModel.getMainListResturants().observe(this, new Observer<List<Restaurants>>() {
             @Override
             public void onChanged(List<Restaurants> restaurants) {
+                isDoneTheLastResturantRequest = true;
                 mViewModel.queryFinished();
                 if (restaurants != null) {
                     mAdapter.setMainResturant(restaurants);
@@ -181,10 +183,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (!dataIsFinishedDontRequestMore) {
+                if (!dataIsFinishedDontRequestMore && isDoneTheLastResturantRequest) {
                     mAdapter.displayLoading(false);
                     if (!recyclerView.canScrollVertically(1)) {
                         if (!mViewModel.isPerformingQuery()) {
+                            isDoneTheLastResturantRequest = false;
                             mViewModel.nextReciveResturantApi();
                         }
                     }
@@ -216,7 +219,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClickListener(int id) { // its for item list listener
         if (id == seeAll) {
-            Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, CollectionActivity.class));
         } else {
         }

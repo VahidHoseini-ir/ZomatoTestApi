@@ -56,10 +56,9 @@ public class AdapterSimilarResturant extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-
         if (resturants.get(position).getId() == LoadingView) {
             return LoadingView;
-        } else if (position == resturants.size() - 1 &&resturants.get(position).getId() == LoadingView) {
+        } else if (position == resturants.size() - 1 && resturants.get(position).getId() == LoadingView) {
             return LoadingView;
         } else {
             return ResturantView;
@@ -96,15 +95,24 @@ public class AdapterSimilarResturant extends RecyclerView.Adapter<RecyclerView.V
         return false;
     }
 
+    //    private void hideLoading() {
+    //        List<Restaurants> toRemove = new ArrayList<>();
+    //        for (Restaurants restaurant:resturants) {
+    //            if (restaurant.getId() == LoadingView) {
+    //                toRemove.add(restaurant);
+    //            }
+    //        }
+    //        resturants.removeAll(toRemove);
+    //        notifyDataSetChanged();
+    //
+    //    }
     private void hideLoading() {
-        for (int i = 0; i < resturants.size(); i++) {
-            Restaurants restaurant = resturants.get(i);
-            if (restaurant.getId() == LoadingView) {
-                resturants.remove(restaurant);
+        if(resturants.size()>0){
+            if (resturants.get(resturants.size() - 1).getId() == LoadingView) {
+                resturants.remove(resturants.size() - 1);
             }
+            notifyDataSetChanged();
         }
-        notifyDataSetChanged();
-
     }
 
     public void setResturants(List<Restaurants> Resturants) {

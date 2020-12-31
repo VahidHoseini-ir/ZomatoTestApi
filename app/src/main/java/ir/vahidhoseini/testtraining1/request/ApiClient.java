@@ -56,6 +56,11 @@ public class ApiClient {
         }
         mRetrieveCollectionRunnable = new RetrieveCollectionRunnable(params);
         if (thread != null) {
+            try{
+                thread.stop();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             thread = null;
         }
         thread = new Thread(mRetrieveCollectionRunnable);
@@ -77,6 +82,11 @@ public class ApiClient {
         }
         mRetrieveResturantsRunnable = new RetrieveResturantsRunnable(params, page);
         if (thread != null) {
+            try{
+                thread.stop();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             thread = null;
         }
         thread = new Thread(mRetrieveResturantsRunnable);
@@ -89,6 +99,11 @@ public class ApiClient {
         }
         mRetrieveReviewsRunnable = new RetrieveReviewsRunnable(mapReviews, page);
         if (thread != null) {
+            try{
+                thread.stop();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             thread = null;
         }
         thread = new Thread(mRetrieveReviewsRunnable);

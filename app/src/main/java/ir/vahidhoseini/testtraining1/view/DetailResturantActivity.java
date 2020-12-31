@@ -85,6 +85,8 @@ public class DetailResturantActivity extends BaseActivity implements OnClickList
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+
         binding.toolbarLayout.setTitle(" ");
 
         if (getIntent().getExtras() != null) {
